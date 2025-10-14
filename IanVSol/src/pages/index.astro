@@ -1,5 +1,7 @@
 ---
+import NavDesktop from "../components/NavBar";
 import Counter from "../components/Reacttest";
+import MobileNavbar from "../components/NavMobile";
 import Layout from "../layouts/Layout.astro";
 import Footer from "./Footer.astro";
 import Header from "./Header.astro";
@@ -7,7 +9,9 @@ import MainBody from "./sections/MainBody.astro";
 ---
 
 <Layout>
-  <Header />
+  <!-- <Header /> -->
+  <!-- <MobileNavbar client:load /> -->
+  <NavDesktop />
   <Counter initialCount={0} client:load />
   <MainBody />
   <Footer />
