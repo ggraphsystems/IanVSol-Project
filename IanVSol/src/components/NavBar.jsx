@@ -1,7 +1,7 @@
 import { route } from "./RoutesNavBar"
-import { MobileNavbar } from "./NavMobile"
+import HmaburgerMenu from "./NavMobile"
 
-const NavDesktop = () =>{
+export default function NavDesktop (){
     return (   
         <nav className="text-white flex items-center justify-center relative px-10 sm:px-15 md:px-20 lg:px-35 2xl:px-50 py-6">
             <div className="flex-1">
@@ -22,9 +22,7 @@ const NavDesktop = () =>{
             <button className="bg-white text-black p-3 rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-transform">
                 Contact
             </button>
-            <MobileNavbar client:load/>
+            <HmaburgerMenu/>
         </nav> 
     )
 }
-
-export default NavDesktop;
