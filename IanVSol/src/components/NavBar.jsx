@@ -4,7 +4,7 @@ export default function NavDesktop (){
     return (   
         <nav className="hidden text-white md:flex items-center justify-center relative px-10 sm:px-15 md:px-20 lg:px-35 2xl:px-50 py-6">
             <div className="flex-1">
-                <h1 className="cursor-pointer text-3xl font-bold sm:pl-2">IanVSol</h1>
+                <h1 className="cursor-pointer text-3xl font-bold sm:pl-2">IanVSol 🎧</h1>
             </div>
             <div className="flex-1 flex justify-center">
                 <ul className="justify-center ml-2 lg:ml-15 flex gap-5">
