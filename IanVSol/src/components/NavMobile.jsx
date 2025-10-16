@@ -15,7 +15,7 @@ export default function HamburgerMenu() {
   return (
     <div ref={menuRef} className="md:hidden flex items-center justify-end px-2 py-4 text-white ">
       <div className="flex-1 ml-3">
-          <h1 className="cursor-pointer text-3xl font-bold sm:pl-2">IanVSol</h1>
+          <h1 className="cursor-pointer text-3xl font-bold sm:pl-2">IanVSol 🎧</h1>
       </div>
       <Hamburger toggled = {isOpen} toggle={setOpen} size={20} />
       <AnimatePresence>
