@@ -25,7 +25,7 @@ export default function HamburgerMenu() {
             animate={{opacity:1}}
             exit={{opacity:0}}
             transition={{duration:0.2}}
-            className="fixed left-0 shadow-4xl right-0 top-[3.5rem] p-5 pt-0"
+            className="fixed left-0 shadow-4xl right-0 top-[4.5rem] bg-black p-5 pt-0"
             >
                 <ul className="grid gap-2">
                   {route.map(({title, href, idx}) =>(
@@ -40,13 +40,18 @@ export default function HamburgerMenu() {
                     }}
                     key={href} 
                     className="flex justify-center">
-                      <a onClick={() => setOpen(false)} className="p-2 pl-5 pr-5 rounded-2xl bg-neutral-800" href={href}>
-                        <span className="flex gap-1 text-base">
+                      <a onClick={() => setOpen(false)} className="p-3 pl-5 w-50 pr-5 rounded-2xl bg-neutral-800 hover:bg-purple-500 hover:scale-105 hover:text-white transition-transform
+                      active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600
+                      " href={href}>
+                        <span className="ml-14 text-base">
                           {title}
                         </span>
                       </a>
                     </motion.li>
                   ))}
+                      <button className="bg-white w-50 pl-5 pr-5 ml-31 text-black p-3 rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-transform active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600">
+                       Contact
+                      </button>
                 </ul>
               {/* <div className="text-white fixed left-2 shadow-4xl right-0 top-[1.5rem] p-5">
               </div> */}
