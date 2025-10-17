@@ -18,7 +18,7 @@ export default function NavDesktop (){
                 </ul>
             </div>
             <div className="flex-1"></div>
-            <button className="bg-white text-black p-3 rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-transform">
+            <button className="bg-white text-black p-3 rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-transform active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600">
                 Contact
             </button>
             
