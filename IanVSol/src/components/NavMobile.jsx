@@ -49,9 +49,11 @@ export default function HamburgerMenu() {
                       </a>
                     </motion.li>
                   ))}
-                      <button className="bg-white w-50 pl-5 pr-5 ml-31 text-black p-3 rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-transform active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600">
+                  <div className="flex items-center justify-center">
+                      <button className="bg-white p-3 pl-5 w-50 pr-5 text-black rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-transform active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600">
                        Contact
                       </button>
+                  </div>
                 </ul>
               {/* <div className="text-white fixed left-2 shadow-4xl right-0 top-[1.5rem] p-5">
               </div> */}
