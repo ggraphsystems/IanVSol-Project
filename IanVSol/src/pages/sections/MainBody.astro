@@ -2,6 +2,7 @@
 import AboutMe from "./AboutMe.astro";
 import LastestWork from "./LastestWork.astro";
 import Contact from "./Contact.astro";
+import ContactForm from "../../components/ContactForm";
 ---
 
 <main>
@@ -52,5 +53,6 @@ import Contact from "./Contact.astro";
 
   <LastestWork />
   <AboutMe />
-  <Contact />
+  <!-- <Contact /> -->
+  <ContactForm client:only="react" />
 </main>

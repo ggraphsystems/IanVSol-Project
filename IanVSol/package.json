@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/netlify": "^6.5.13",
     "@astrojs/react": "^4.4.0",
     "@astrojs/ts-plugin": "^1.10.4",
     "@midudev/tailwind-animations": "^0.2.0",
@@ -20,7 +21,10 @@
     "hamburger-react": "^2.5.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.9.4",
+    "react-spinners": "^0.17.0",
     "react-use": "^17.6.0",
+    "resend": "^6.2.0",
     "tailwindcss": "^4.1.14"
   }
 }
