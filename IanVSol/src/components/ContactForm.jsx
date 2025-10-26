@@ -206,8 +206,8 @@ export default function ContactForm() {
                             : "bg-white active:text-white"
                         }
                         ${isFormIncomplete
-                            ? 'opacity-50 cursor-not-allowed bg-neutral-500'
-                            : 'bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white'
+                            ? 'opacity-50 cursor-not-allowed bg-neutral-500 focus:opacity-50 active:bg-neutral-500'
+                            : 'bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white focus:bg-purple-600 active:bg-purple-600'
                         }
                     `}
                     >
