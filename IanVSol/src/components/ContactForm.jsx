@@ -1,9 +1,8 @@
-'use client'
 
-import { set } from 'astro/zod'
-import { loadRenderers } from 'astro:container'
+// import { loadRenderers } from 'astro:container'
 import { useState, useEffect } from 'react'
 import { ClipLoader } from "react-spinners"
+// import { Modal } from "./ModalEmail"
 
 export default function ContactForm() {
     const [name, setName] = useState("")
@@ -13,19 +12,29 @@ export default function ContactForm() {
     const [email, setEmail] = useState("")
     const [message, setMessage] = useState("")
 
-    const [laoding, setLoading] = useState(true)
+    const [form, setForm] = useState({
+        firstname: "",
+        lastname: "",
+        phoneNumber: "",
+        instagram: "",
+        email: "",
+        message: ""
+      });
     
+
+    const isFormIncomplete = Object.values(form).some(value => value.trim() === "");
+    // loader submit buttton
+    const [loading, setLoading] = useState(false)
     
-    // useEffect(() => {
-    //     const sendEmail = async () => {
-            
-    //     };
-    //     sendEmail();
-    // }, []);
+    // button touch in screens
+    const [pressed, setisPressed] = useState(false) 
+    
+
 
     const handleSubmit = async e => {
         e.preventDefault()
         console.log(name, lastname, phoneNumber, instagram, email, message)
+        setLoading(true)
         try {
             const response = await fetch("https://adg4x2g63h.execute-api.us-east-2.amazonaws.com/prod/send-email", {
                 method: 'POST',
@@ -33,12 +42,12 @@ export default function ContactForm() {
                     'Content-Type':'application/json',
                 },
                 body: JSON.stringify({
-                    name:name,
-                    lastname:lastname,
-                    subject:email,
-                    phone:phoneNumber,
-                    instagram:instagram,
-                    message:message
+                    name:form.firstname,
+                    lastname:form.lastname,
+                    subject:form.email,
+                    phone:form.phoneNumber,
+                    instagram:form.instagram,
+                    message:form.message
                 }),
             });
 
@@ -46,25 +55,22 @@ export default function ContactForm() {
                 throw new Error(`HTTP error! status: ${response.status}`);
                 
             }
-            if (response.ok) {
-                window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
-            }
+            window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
             
             const result = await response.json();
             console.log(result)
             
         } catch (error) {
             console.log(error)
+        } finally{
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000)
         }
-        const handleSend = () => {
-            window.alert("Thanks for send me a message! I'll be reaching you in three days as soon as posible!")
-            setName('')
-            setLastname('')
-            setPhoneNumber('')
-            setInstagram('')
-            setEmail('')
-            setMessage('')
-        }
+    }
+
+    const handleSend = () => {
+        window.alert("Thanks for send me a message! I'll be reaching you in three days as soon as posible!")
     }
 
     
@@ -114,7 +120,8 @@ export default function ContactForm() {
                     className="pt-4 w-80 lg:w-45 2xl:w-53 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
                     type="text"
                     id="first-name"
-                    onChange={e => setName(e.target.value)}
+                    value={form.firstname}
+                    onChange={e => setForm({...form, firstname: e.target.value})}
                   />
                 </div>
                 <div className="ml-1 md:ml-0 grid">
@@ -123,7 +130,8 @@ export default function ContactForm() {
                     className="pt-4 w-80 lg:w-45 2xl:w-70 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
                     type="text"
                     id="last-name"
-                    onChange={e => setLastname(e.target.value)}
+                    value={form.lastname}
+                    onChange={e => setForm({...form, lastname: e.target.value})}
                   />
                 </div>
               </div>
@@ -137,7 +145,8 @@ export default function ContactForm() {
                   className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
                   type="number"
                   id="number"
-                  onChange={e => setPhoneNumber(e.target.value)}
+                  value={form.phoneNumber}
+                  onChange={e => setForm({...form, phoneNumber: e.target.value})}
                 />
               </div>
               <div className="ml-1 md:ml-0 grid">
@@ -149,7 +158,8 @@ export default function ContactForm() {
                   type="text"
                   id="instagram"
                   name="instagram"
-                  onChange={e => setInstagram(e.target.value)}
+                  value={form.instagram}
+                  onChange={e => setForm({...form, instagram: e.target.value})}
                 />
               </div>
               <div className="ml-1 md:ml-0 grid">
@@ -161,7 +171,8 @@ export default function ContactForm() {
                   type="email"
                   id="email"
                   name="email"
-                  onChange={e => setEmail(e.target.value)}
+                  value={form.email}
+                  onChange={e => setForm({...form, email: e.target.value})}
                 />
               </div>
   
@@ -173,7 +184,8 @@ export default function ContactForm() {
                 <textarea
                   className="bg-transparent w-80 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
                   id="message"
-                  onChange={e => setMessage(e.target.value)}
+                  value={form.message}
+                  onChange={e => setForm({...form, message: e.target.value})}
                 ></textarea>
                 <span className="text-neutral-600 text-sm ml-83 sm:ml-96 md:ml-72 lg:ml-98 2xl:ml-120">
                   →
@@ -183,30 +195,34 @@ export default function ContactForm() {
               {/* Submit Button */}
               <div className="grid ml-1 md:ml-0">
               <button
+                    disabled={isFormIncomplete}
                     type="submit"
-                    className="w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600"
-                    onClick={() => handleSend()}
+                    className={`w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl 
+                        ${setTimeout(() => {
+                            setisPressed(false);
+                        }, 200)}
+                        ${pressed
+                            ? 'focus:bg-purple-600 active:bg-purple-600'
+                            : "bg-white active:text-white"
+                        }
+                        ${isFormIncomplete
+                            ? 'opacity-50 cursor-not-allowed bg-neutral-500'
+                            : 'bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white'
+                        }
+                    `}
                     >
-                    SUBMIT →
-
-                    </button>
-                {/* <div>
-
-                {
-                    laoding ? (
-                        <ClipLoader color='#36D7B7' loading={loading} size={20}/>
-                    ) : (
-                        <button
-                            type="submit"
-                            className="w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600"
-                            onClick={() => handleSend()}
-                            >
-                            SUBMIT →
-
-                        </button>
-                    )
-                }
-                </div> */}
+                     {
+                        loading ? (
+                            <ClipLoader color='purple'
+                                loading={loading}
+                                size={30}
+                                aria-level="Loading Spinner"
+                                data-testid="loader"/> 
+                        ) : (
+                            "SUBMIT →"
+                        )
+                    }
+                </button>
                 
               </div>
             </div>
@@ -215,5 +231,4 @@ export default function ContactForm() {
       </section>
         
     )
-
 } 
