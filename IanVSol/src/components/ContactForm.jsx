@@ -2,21 +2,13 @@
 // import { loadRenderers } from 'astro:container'
 import { useState, useEffect } from 'react'
 import { ClipLoader } from "react-spinners"
-// import { Modal } from "./ModalEmail"
+import Modal from './ModalEmail';
 
 export default function ContactForm() {
-    const [name, setName] = useState("")
-    const [lastname, setLastname] = useState("")
-    const [phoneNumber, setPhoneNumber] = useState("")
     const [instagram, setInstagram] = useState("")
-    const [email, setEmail] = useState("")
-    const [message, setMessage] = useState("")
-
     const [form, setForm] = useState({
-        firstname: "",
-        lastname: "",
+        fullname:"",
         phoneNumber: "",
-        instagram: "",
         email: "",
         message: ""
       });
@@ -28,12 +20,15 @@ export default function ContactForm() {
     
     // button touch in screens
     const [pressed, setisPressed] = useState(false) 
+
+    // Modal state
+    const [modalOpen, setismodalOpen] = useState(false)
     
 
 
     const handleSubmit = async e => {
         e.preventDefault()
-        console.log(name, lastname, phoneNumber, instagram, email, message)
+        console.log(form.fullname, form.phoneNumber, form.instagram, form.email, form.message)
         setLoading(true)
         try {
             const response = await fetch("https://adg4x2g63h.execute-api.us-east-2.amazonaws.com/prod/send-email", {
@@ -42,8 +37,7 @@ export default function ContactForm() {
                     'Content-Type':'application/json',
                 },
                 body: JSON.stringify({
-                    name:form.firstname,
-                    lastname:form.lastname,
+                    fullaname:form.fullname,
                     subject:form.email,
                     phone:form.phoneNumber,
                     instagram:form.instagram,
@@ -53,37 +47,33 @@ export default function ContactForm() {
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
-                
             }
             window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
             
             const result = await response.json();
             console.log(result)
+
+
             
         } catch (error) {
             console.log(error)
+            setLoading(false)
         } finally{
             setTimeout(() => {
+                setForm(
+                    {
+                        fullname:"",
+                        phoneNumber: "",
+                        email: "",
+                        message: ""}
+                    )
+                setInstagram("")
                 setLoading(false);
-            }, 2000)
-        }
+                setismodalOpen(true)
+            }, 100)
+            
+          }
     }
-
-    const handleSend = () => {
-        window.alert("Thanks for send me a message! I'll be reaching you in three days as soon as posible!")
-    }
-
-    
-
-    // useEffect(()=>{
-    //     setTimeout(() => {
-    //         setIsLoading(false);
-    //     }, 2000);
-    // }, [])
-
-
-    
-
 
     
 
@@ -109,29 +99,19 @@ export default function ContactForm() {
           <form onSubmit={handleSubmit}>
             <div className="font-mono text-sm space-y-6 pt-6 sm:px-2 md:px-3 lg:px-1 2xl:px-10 text-white">
               <h1 className="ml-1 md:ml-0 text-xl font-bold">
-                Name <span className="text-neutral-600">(required)</span>
+                Data <span className="text-neutral-600">(required)</span>
               </h1>
   
               {/* Name Fields */}
               <div className="lg:flex gap-12">
                 <div className="ml-1 md:ml-0 grid">
-                  <label className="text-sm font-bold">First Name:</label>
+                  <label className="text-sm font-bold">Full Name: <span className="text-neutral-600 hover:text-neutral-400">(required)</span> </label>
                   <input
-                    className="pt-4 w-80 lg:w-45 2xl:w-53 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
+                    className="pt-4 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white"
                     type="text"
-                    id="first-name"
-                    value={form.firstname}
-                    onChange={e => setForm({...form, firstname: e.target.value})}
-                  />
-                </div>
-                <div className="ml-1 md:ml-0 grid">
-                  <label className="text-sm font-bold">Last Name:</label>
-                  <input
-                    className="pt-4 w-80 lg:w-45 2xl:w-70 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
-                    type="text"
-                    id="last-name"
-                    value={form.lastname}
-                    onChange={e => setForm({...form, lastname: e.target.value})}
+                    id="fullname"
+                    value={form.fullname}
+                    onChange={e => setForm({...form, fullname: e.target.value})}
                   />
                 </div>
               </div>
@@ -139,7 +119,7 @@ export default function ContactForm() {
               {/* Email Field */}
               <div className="ml-1 md:ml-0 grid">
                 <label className="text-sm font-bold">
-                  Numero: <span className="text-neutral-600">(required)</span>
+                  Phone Number: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
                 </label>
                 <input
                   className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
@@ -151,20 +131,20 @@ export default function ContactForm() {
               </div>
               <div className="ml-1 md:ml-0 grid">
                 <label className="text-sm font-bold">
-                  Insta: <span className="text-neutral-600">(optional)</span>
+                  Instagram: <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
                 </label>
                 <input
                   className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
                   type="text"
                   id="instagram"
                   name="instagram"
-                  value={form.instagram}
-                  onChange={e => setForm({...form, instagram: e.target.value})}
+                  value={instagram}
+                  onChange={e => setInstagram(e.target.value)}
                 />
               </div>
               <div className="ml-1 md:ml-0 grid">
                 <label className="text-sm font-bold">
-                  Email: <span className="text-neutral-600">(required)</span>
+                  Email: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
                 </label>
                 <input
                   className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
@@ -179,7 +159,7 @@ export default function ContactForm() {
               {/* Message Field */}
               <div className="grid ml-1 md:ml-0">
                 <label className="pt-4 text-sm font-bold mb-2">
-                  Message: <span className="text-neutral-600">(required)</span>
+                  Message: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
                 </label>
                 <textarea
                   className="bg-transparent w-80 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
@@ -200,7 +180,7 @@ export default function ContactForm() {
                     className={`w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl 
                         ${setTimeout(() => {
                             setisPressed(false);
-                        }, 200)}
+                        }, 500)}
                         ${pressed
                             ? 'focus:bg-purple-600 active:bg-purple-600'
                             : "bg-white active:text-white"
@@ -223,8 +203,18 @@ export default function ContactForm() {
                         )
                     }
                 </button>
-                
+                {/* <button className='bg-white text-black hover:scale-105 transition-transform p-3'
+                onClick={() => setismodalOpen(true)}
+                >Test modal
+                  
+                </button> */}
+                <Modal open={modalOpen} onClose={() => setismodalOpen(false)}>
+                    <div className='text-center w-86'>
+                        <p className='font-black text-white'>Thank you so much for reaching out, I'll be contacting you in the next couple of days!</p>
+                    </div>
+                </Modal>
               </div>
+              
             </div>
           </form>
         </div>
