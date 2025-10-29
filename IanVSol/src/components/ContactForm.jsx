@@ -24,6 +24,7 @@ export default function ContactForm() {
     // Modal state
     const [modalOpen, setismodalOpen] = useState(false)
     
+    const [timeoutId, setTimeoutId] = useState(null)
 
 
     const handleSubmit = async e => {
@@ -37,10 +38,10 @@ export default function ContactForm() {
                     'Content-Type':'application/json',
                 },
                 body: JSON.stringify({
-                    fullaname:form.fullname,
+                    name:form.fullname,
                     subject:form.email,
                     phone:form.phoneNumber,
-                    instagram:form.instagram,
+                    instagram:instagram,
                     message:form.message
                 }),
             });
@@ -50,29 +51,29 @@ export default function ContactForm() {
             }
             window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
             
+            setLoading(false)
+            setismodalOpen(true)
             const result = await response.json();
             console.log(result)
 
-
             
-        } catch (error) {
+          } catch (error) {
             console.log(error)
             setLoading(false)
-        } finally{
-            setTimeout(() => {
-                setForm(
-                    {
-                        fullname:"",
-                        phoneNumber: "",
-                        email: "",
-                        message: ""}
-                    )
-                setInstagram("")
-                setLoading(false);
-                setismodalOpen(true)
-            }, 100)
-            
-          }
+          } 
+          setTimeout(() => {
+            setForm(
+                {
+                    fullname:"",
+                    phoneNumber: "",
+                    email: "",
+                    message: ""}
+                )
+            setInstagram("")
+          }, 800)
+        // finally{
+        //     console.log("Operation finish")
+        //   }
     }
 
     
@@ -175,19 +176,22 @@ export default function ContactForm() {
               {/* Submit Button */}
               <div className="grid ml-1 md:ml-0">
               <button
+                    onClick={() => {
+                      setTimeout(() => {
+                        setismodalOpen(true)
+                      }, 1500)
+                    }}
                     disabled={isFormIncomplete}
                     type="submit"
-                    className={`w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl 
-                        ${setTimeout(() => {
-                            setisPressed(false);
-                        }, 500)}
+                    onTouch
+                    className={`w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
                         ${pressed
                             ? 'focus:bg-purple-600 active:bg-purple-600'
                             : "bg-white active:text-white"
                         }
                         ${isFormIncomplete
                             ? 'opacity-50 cursor-not-allowed bg-neutral-500 focus:opacity-50 active:bg-neutral-500'
-                            : 'bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white focus:bg-purple-600 active:bg-purple-600'
+                            : 'bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white focus:bg-purple-600 active:bg-purple-600 cursor-pointer'
                         }
                     `}
                     >
@@ -204,7 +208,7 @@ export default function ContactForm() {
                     }
                 </button>
                 {/* <button className='bg-white text-black hover:scale-105 transition-transform p-3'
-                onClick={() => setismodalOpen(true)}
+                
                 >Test modal
                   
                 </button> */}
