@@ -1,7 +1,6 @@
 ---
 import AboutMe from "./AboutMe.astro";
-import LastestWork from "./LastestWork.astro";
-import Contact from "./Contact.astro";
+import WorkWithMe from "./WorkWithMe.astro";
 import ContactForm from "../../components/ContactForm";
 ---
 
@@ -51,8 +50,7 @@ import ContactForm from "../../components/ContactForm";
     </div>
   </section>
 
-  <LastestWork />
+  <WorkWithMe />
   <AboutMe />
-  <!-- <Contact /> -->
   <ContactForm client:only="react" />
 </main>
