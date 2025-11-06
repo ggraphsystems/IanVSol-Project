@@ -1,18 +1,40 @@
 // import { loadRenderers } from 'astro:container'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, use } from 'react'
 import { ClipLoader } from "react-spinners"
 import Modal from './ModalEmail';
+import React from "react"
 
 export default function ContactFormService() {
     const [instagram, setInstagram] = useState("")
     const [form, setForm] = useState({
         fullname:"",
         phoneNumber: "",
+        age:"",
         email: "",
+        basicLevel:"",
+        intermidiateLevel:"",
+        advanceLevel:"",
+        professionalLavel:"",
+        musicGender:"",
+        musicCreation:"",
+        musicRealease:"",
+        link:"",
+        dateScheduled:"",
         message: ""
       });
-    
 
+    // const [check, setisCheck] = useState("")
+    
+    
+    const isfullname = form.fullname.trim().length < 5;
+    const isPhoneNumber = form.phoneNumber.trim().length < 6;
+    const isAge = form.age.trim().length < 2;
+    const isEmail = form.email.trim().length < 6;
+    const isBasicLevel = form.basicLevel.trim() === "";    
+    // const isBasicLevel = Object.values(form.basicLevel).some(value =>  value === "" || value === false);
+    const isFavoriteMusicGender = form.musicGender.trim() === "";
+    const isLink = form.link.trim().length < 10
+    const isDataSchedule = form.dateScheduled.trim() === "";
     const isFormIncomplete = Object.values(form).some(value => value.trim() === "");
     // loader submit buttton
     const [loading, setLoading] = useState(false)
@@ -28,73 +50,70 @@ export default function ContactFormService() {
 
     const handleSubmit = async e => {
         e.preventDefault()
-        console.log(form.fullname, form.phoneNumber, form.instagram, form.email, form.message)
+        console.log(
+            form.fullname, 
+            form.phoneNumber, 
+            form.age,
+            form.email,
+            form.basicLevel,
+            form.intermidiateLevel,
+            form.advanceLevel,
+            form.professionalLavel,
+            form.musicGender,
+            form.musicCreation,
+            form.musicRealease,
+            form.link,
+            form.dateScheduled,
+            form.message)
         setLoading(true)
-        try {
-            const response = await fetch("https://adg4x2g63h.execute-api.us-east-2.amazonaws.com/prod/send-email", {
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/json',
-                },
-                body: JSON.stringify({
-                    name:form.fullname,
-                    subject:form.email,
-                    phone:form.phoneNumber,
-                    instagram:instagram,
-                    message:form.message
-                }),
-            });
+        // try {
+        //     const response = await fetch("https://adg4x2g63h.execute-api.us-east-2.amazonaws.com/prod/send-email", {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type':'application/json',
+        //         },
+        //         body: JSON.stringify({
+        //             name:form.fullname,
+        //             subject:form.email,
+        //             phone:form.phoneNumber,
+        //             instagram:instagram,
+        //             message:form.message
+        //         }),
+        //     });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
+        //     if (!response.ok) {
+        //         throw new Error(`HTTP error! status: ${response.status}`);
+        //     }
+        //     window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
             
-            setLoading(false)
-            setismodalOpen(true)
-            const result = await response.json();
-            console.log(result)
+        //     setLoading(false)
+        //     setismodalOpen(true)
+        //     const result = await response.json();
+        //     console.log(result)
 
             
-          } catch (error) {
-            console.log(error)
-            setLoading(false)
-          } 
-          setTimeout(() => {
-            setForm(
-                {
-                    fullname:"",
-                    phoneNumber: "",
-                    email: "",
-                    message: ""}
-                )
-            setInstagram("")
-          }, 800)
+        //   } catch (error) {
+        //     console.log(error)
+        //     setLoading(false)
+        //   } 
+        //   setTimeout(() => {
+        //     setForm(
+        //         {
+        //             fullname:"",
+        //             phoneNumber: "",
+        //             email: "",
+        //             message: ""}
+        //         )
+        //     setInstagram("")
+        //   }, 800)
         // finally{
         //     console.log("Operation finish")
         //   }
     }
 
-    
 
     return (
-        <section className="pt-40 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
-        <div className="px-3 grid md:grid-cols-2 gap-16 lg:mr-18 item-center">
-          {/* Contact Information */}
-          <div className="ml-1 md:ml-0 md:pl-10 lg:pl-25 2xl:pl-5">
-            <ul>
-              <li className="font-mono text-neutral-500 pt-6 md:px-5 md:pl-1 lg:px-20 2xl:px-40">
-                iannvvsol@gmail.com
-              </li>
-              <li className="font-mono text-neutral-500 pt-6 md:px-5 md:pl-1 lg:px-20 2xl:px-40">
-                8371-8307
-              </li>
-              <li className="font-mono text-neutral-500 pt-6 md:px-5 md:pl-1 lg:px-20 2xl:px-40">
-                San Jose, Costa Rica
-              </li>
-            </ul>
-          </div>
-  
+        <section className="pt-40 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">  
           {/* Form Section */}
           <form onSubmit={handleSubmit}>
             <div className="font-mono text-sm space-y-6 pt-6 sm:px-2 md:px-3 lg:px-1 2xl:px-10 text-white">
@@ -118,11 +137,23 @@ export default function ContactFormService() {
   
               {/* Email Field */}
               <div className="ml-1 md:ml-0 grid">
-                <label className="text-sm font-bold">
-                  Phone Number: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
+                <label className={`text-sm font-bold
+                    ${ isfullname 
+                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
+                        : 'text-sm font-bold'
+                    }
+                    `}>
+                  Phone Number: <span className={`text-neutral-600 hover:text-neutral-400
+                    `}>(required)</span>
                 </label>
                 <input
-                  className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
+                  className={`
+                    ${ isfullname 
+                        ? 'opacity-50 active cursor-not-allowed'
+                        : 'pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                    }
+                    
+                    `}
                   type="number"
                   id="number"
                   value={form.phoneNumber}
@@ -130,29 +161,219 @@ export default function ContactFormService() {
                 />
               </div>
               <div className="ml-1 md:ml-0 grid">
+                <label className={`text-sm font-bold
+                    ${ isPhoneNumber 
+                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
+                        : 'text-sm font-bold'
+                    }
+                    `}>
+                  Age: 
+                  <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
+                </label>
+                <input
+                  className={`pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white 
+                    ${ isPhoneNumber
+                        ? 'opacity-1 active cursor-not-allowed'
+                        : 'pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
+                    }
+                    `}
+                  type="number"
+                  id="age"
+                  value={form.age}
+                  onChange={e => setForm({...form, age: e.target.value})}
+                />
+              </div>
+              <div className="ml-1 md:ml-0 grid">
+                <label className={`text-sm font-bold
+                    ${ isAge 
+                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
+                        : 'text-sm font-bold'
+                    }
+                    `}>
+                  Email: 
+                  <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
+                </label>
+                <input
+                  className={`pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
+                    ${ isAge
+                        ? 'opacity-1 active cursor-not-allowed'
+                        : 'pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
+                    }
+                    `}
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={form.email}
+                  onChange={e => setForm({...form, email: e.target.value})}
+                />
+              </div>
+
+              {/* Which you consider that is you musician level?  */}
+
+              <div className="ml-1 md:ml-0 grid">
+                <label className={`text-sm font-bold 
+                    ${ isEmail 
+                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
+                        : 'text-sm font-bold'
+                    }
+                `}>
+                  Which you consider that is you musician level? 
+                  <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
+                </label>
+                <div className='md:flex'>
+                    <label className={`text-sm font-bold 
+                    ${ isEmail 
+                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
+                        : 'text-sm font-bold'
+                    }
+                `}  htmlFor="">Basic:</label>
+                    <input
+                    className={`pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
+                        ${ isEmail
+                            ? 'opacity-1 active cursor-not-allowed'
+                            : 'pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
+                        }
+                    `}
+                    type="checkbox"
+                    id="basic"
+                    name="basic"
+                    value={form.basicLevel}
+                    onChange={(e) => setForm({...form, basicLevel: e.target.value})}
+                    />
+                    <label className={`text-sm font-bold 
+                    ${ isEmail 
+                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
+                        : 'text-sm font-bold'
+                    }
+                `} htmlFor="">Intermidiate:</label>
+                    <input
+                    className={`pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
+                        ${ isEmail
+                            ? 'opacity-1 active cursor-not-allowed'
+                            : 'pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
+                        }
+                        
+                        `}
+                    type="checkbox"
+                    id="intermidiate"
+                    name="intermidiate"
+                    value={form.intermidiateLevel}
+                    onChange={e => setForm({...form, intermidiateLevel: e.target.value})}
+                    />
+                    <label className={`text-sm font-bold 
+                    ${ isEmail 
+                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
+                        : 'text-sm font-bold'
+                    }
+                `} htmlFor="">Advance:</label>
+                    <input
+                    className={`pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
+                        ${ isEmail
+                            ? 'opacity-1 active cursor-not-allowed'
+                            : 'pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
+                        }
+                        `}
+                    type="checkbox"
+                    id="advance"
+                    name="advance"
+                    value={form.advanceLevel}
+                    onChange={e => setForm({...form, advanceLevel: e.target.value})}
+                    />
+                    <label className={`text-sm font-bold 
+                    ${ isEmail 
+                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
+                        : 'text-sm font-bold'
+                    }
+                `} htmlFor="">Professional:</label>
+                    <input
+                    className={`pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
+                        ${ isEmail
+                            ? 'opacity-1 active cursor-not-allowed'
+                            : 'pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'    
+                        }
+                        `}
+                    type="checkbox"
+                    id="professional"
+                    name="professional"
+                    value={form.professionalLavel}
+                    onChange={e => setForm({...form, professionalLavel: e.target.value})}
+                    />
+                </div>
+              </div>
+
+                {/* Favorite music gender */}
+
+              <div className="ml-1 md:ml-0 grid">
+                <label className={`text-sm font-bold
+                    `}>
+                  Favorite music gender 
+                  <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
+                </label>
+                <input
+                  className={`pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
+                    ${ isBasicLevel
+                        ? 'opacity-1 active cursor-not-allowed'
+                        : 'pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
+                    }
+                    `}
+                  type="text"
+                  id="favoritemusicgender"
+                  name="favoritemusicgender"
+                //   disabled={!check}
+                  value={form.musicGender}
+                  onChange={e => setForm({...form, musicGender: e.target.value})}
+                />
+              </div>
+              <div className="ml-1 md:ml-0 grid">
                 <label className="text-sm font-bold">
-                  Instagram: <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
+                  Which type of music do you wanna make? <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
+                </label>
+                <input
+                  className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
+                  type="text"
+                  id="musicCreation"
+                  name="musicCreation"
+                  value={form.musicCreation}
+                  onChange={e => setForm({...form, musicCreation: e.target.value})}
+                />
+              </div>
+              <div className="ml-1 md:ml-0 grid">
+                <label className="text-sm font-bold">
+                  Do you have already any music release? <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
+                </label>
+                <input
+                  className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
+                  type="text"
+                  id="musicRelease"
+                  name="musicRelease"
+                  value={form.musicRealease}
+                  onChange={e => setForm({...form, musicRealease: e.target.value})}
+                />
+              </div>
+              <div className="ml-1 md:ml-0 grid">
+                <label className="text-sm font-bold">
+                  If that is the case, share the link here: <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
                 </label>
                 <input
                   className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
                   type="text"
                   id="instagram"
                   name="instagram"
-                  value={instagram}
-                  onChange={e => setInstagram(e.target.value)}
+                  value={form.link}
+                  onChange={e => setForm({...form, link: e.target.value})}
                 />
               </div>
               <div className="ml-1 md:ml-0 grid">
                 <label className="text-sm font-bold">
-                  Email: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
+                  Scheule date <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
                 </label>
                 <input
                   className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={form.email}
-                  onChange={e => setForm({...form, email: e.target.value})}
+                  type="text"
+                  id="instagram"
+                  name="instagram"
+                  value={form.dateScheduled}
+                  onChange={e => setForm({...form, dateScheduled: e.target.value})}
                 />
               </div>
   
@@ -220,7 +441,6 @@ export default function ContactFormService() {
               
             </div>
           </form>
-        </div>
       </section>
         
     )
