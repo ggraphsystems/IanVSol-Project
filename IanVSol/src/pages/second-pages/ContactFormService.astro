@@ -1,7 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContactFormServices from "../../components/ContactFormServices";
-import ContactFormTest from "../../components/ContactFormTest";
 ---
 
 <!-- ------- Contact services form ------- -->
@@ -21,6 +20,5 @@ import ContactFormTest from "../../components/ContactFormTest";
       </li>
     </ul>
   </nav>
-  <!-- <ContactFormServices client:only="react" /> -->
-  <ContactFormTest client:only="react" />
+  <ContactFormServices client:only="react" />
 </BaseLayout>
