@@ -1,415 +1,489 @@
-// import { loadRenderers } from 'astro:container'
+import { twMerge } from 'tailwind-merge'
 import { useState, useEffect, use } from 'react'
+import { Day, DayPicker, getDefaultClassNames } from "react-day-picker"
+import "react-day-picker/style.css"
+import ModalCalendar from './ModalCalendar';
 import { ClipLoader } from "react-spinners"
-import Modal from './ModalEmail';
-import React from "react"
 
-export default function ContactFormService() {
-    const [instagram, setInstagram] = useState("")
-    const [form, setForm] = useState({
-        fullname:"",
-        phoneNumber: "",
-        age:"",
-        email: "",
-        basicLevel:"",
-        intermidiateLevel:"",
-        advanceLevel:"",
-        professionalLavel:"",
-        musicGender:"",
-        musicCreation:"",
-        musicRealease:"",
-        link:"",
-        dateScheduled:"",
-        message: ""
-      });
+export default function ServicesForm() {
+        const [loading, setLoading] = useState(false)
+        const [pressed, setisPressed] = useState(false) 
+        const [form, setForm] = useState({
+            fullname:"",
+            phoneNumber: "",
+            age:"",
+            email: "",
+            basicLevel:false,
+            intermidiateLevel:false,
+            advanceLevel:false,
+            professionalLavel:false,
+            musicGender:"",
+            musicCreation:"",
+            link:"",
+            dateScheduled:"",
+            message: ""
+          });
 
-    // const [check, setisCheck] = useState("")
+        const [form2, setForm2] = useState({
+            musicRealeaseYes:false,
+            musicRealeaseNo:false,
+        })
+
+        const [selected, setSelected] = useState(new Date());
+        console.log(selected)
+        const [selectedDate, setSelectedDate] = useState(undefined)
+
+        const modifers = {selected: selectedDate};
+        if (selectedDate) {
+            modifers.selected = selectedDate;
+        }
+
+        const defaultClassNames = getDefaultClassNames();
+        const [modalOpen, setismodalOpen] = useState(false)
+
+        const isfullname = form.fullname.trim().length < 5;
+        const isPhoneNumber = form.phoneNumber.trim().length < 6;
+        const isAge = form.age.trim().length < 2;
+        const isEmail = form.email.trim().length < 6;
+        const isAnylevelSelected = Object.values(form).includes(true)
+        const isCheckboxSelected = form.basicLevel || form.intermidiateLevel || form.advanceLevel || form.professionalLavel
+        const isFavoriteMusicGender = form.musicGender.trim().length < 6;
+        const isMusicWannacreated = form.musicCreation.trim().length < 6;
+        const isMusicRealeased = Object.values(form2).includes(true)
+        const isCheckboxSelectedYesNo = form2.musicRealeaseYes
+        const isLink = form.link.trim().length < 10
+        const isDataSchedule = form.dateScheduled.trim() === "";
+        const isFormIncomplete = form.message.trim().length < 6;
+
+
+        const handleCheck = (e) => {
+            // const isChecked = e.target.checked;
+            // setForm(form.basicLeve)
+            // setisCheckBoxValue(isChecked ? console.log(e.target.value) : console.log(""))
+            const {name, checked} = e.target;
+            setForm((prevForm) => ({
+                ...prevForm,
+                [name]:checked,
+            }));
+            console.log(name)
+          }
+
+        const handleCheckYesNo = (e) => {
+            const {name, checked} = e.target;
+            setForm2((prevForm) => ({
+                ...prevForm,
+                [name]:checked,
+            }));
+            console.log(name)
+        }
+
+        
+
+        const handleSubmit = async e => {
+            e.preventDefault()
+            console.log(
+                form.fullname, 
+                form.phoneNumber, 
+                form.age,
+                form.email,
+                form.basicLevel,
+                form.intermidiateLevel,
+                form.advanceLevel,
+                form.professionalLavel,
+                form.musicGender,
+                form.musicCreation,
+                form.musicRealease,
+                form.link,
+                form.dateScheduled,
+                form.message)
+            // setLoading(true)
+            // try {
+            //     const response = await fetch("https://adg4x2g63h.execute-api.us-east-2.amazonaws.com/prod/send-email", {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type':'application/json',
+            //         },
+            //         body: JSON.stringify({
+            //             name:form.fullname,
+            //             subject:form.email,
+            //             phone:form.phoneNumber,
+            //             instagram:instagram,
+            //             message:form.messageaz
+            //         }),
+            //     });
     
+            //     if (!response.ok) {
+            //         throw new Error(`HTTP error! status: ${response.status}`);
+            //     }
+            //     window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
+                
+            //     setLoading(false)
+            //     setismodalOpen(true)
+            //     const result = await response.json();
+            //     console.log(result)
     
-    const isfullname = form.fullname.trim().length < 5;
-    const isPhoneNumber = form.phoneNumber.trim().length < 6;
-    const isAge = form.age.trim().length < 2;
-    const isEmail = form.email.trim().length < 6;
-    const isBasicLevel = form.basicLevel.trim() === "";    
-    // const isBasicLevel = Object.values(form.basicLevel).some(value =>  value === "" || value === false);
-    const isFavoriteMusicGender = form.musicGender.trim() === "";
-    const isLink = form.link.trim().length < 10
-    const isDataSchedule = form.dateScheduled.trim() === "";
-    const isFormIncomplete = Object.values(form).some(value => value.trim() === "");
-    // loader submit buttton
-    const [loading, setLoading] = useState(false)
+                
+            //   } catch (error) {
+            //     console.log(error)
+            //     setLoading(false)
+            //   } 
+            //   setTimeout(() => {
+            //     setForm(
+            //         {
+            //             fullname:"",
+            //             phoneNumber: "",
+            //             email: "",
+            //             message: ""}
+            //         )
+            //     setInstagram("")
+            //   }, 800)
+            // finally{
+            //     console.log("Operation finish")
+            //   }
+        }   
     
-    // button touch in screens
-    const [pressed, setisPressed] = useState(false) 
-
-    // Modal state
-    const [modalOpen, setismodalOpen] = useState(false)
-    
-    const [timeoutId, setTimeoutId] = useState(null)
-
-
-    const handleSubmit = async e => {
-        e.preventDefault()
-        console.log(
-            form.fullname, 
-            form.phoneNumber, 
-            form.age,
-            form.email,
-            form.basicLevel,
-            form.intermidiateLevel,
-            form.advanceLevel,
-            form.professionalLavel,
-            form.musicGender,
-            form.musicCreation,
-            form.musicRealease,
-            form.link,
-            form.dateScheduled,
-            form.message)
-        setLoading(true)
-        // try {
-        //     const response = await fetch("https://adg4x2g63h.execute-api.us-east-2.amazonaws.com/prod/send-email", {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type':'application/json',
-        //         },
-        //         body: JSON.stringify({
-        //             name:form.fullname,
-        //             subject:form.email,
-        //             phone:form.phoneNumber,
-        //             instagram:instagram,
-        //             message:form.message
-        //         }),
-        //     });
-
-        //     if (!response.ok) {
-        //         throw new Error(`HTTP error! status: ${response.status}`);
-        //     }
-        //     window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
-            
-        //     setLoading(false)
-        //     setismodalOpen(true)
-        //     const result = await response.json();
-        //     console.log(result)
-
-            
-        //   } catch (error) {
-        //     console.log(error)
-        //     setLoading(false)
-        //   } 
-        //   setTimeout(() => {
-        //     setForm(
-        //         {
-        //             fullname:"",
-        //             phoneNumber: "",
-        //             email: "",
-        //             message: ""}
-        //         )
-        //     setInstagram("")
-        //   }, 800)
-        // finally{
-        //     console.log("Operation finish")
-        //   }
-    }
-
-
-    return (
-        <section className="pt-40 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">  
-          {/* Form Section */}
-          <form onSubmit={handleSubmit}>
-            <div className="font-mono text-sm space-y-6 pt-6 sm:px-2 md:px-3 lg:px-1 2xl:px-10 text-white">
-              <h1 className="ml-1 md:ml-0 text-xl font-bold">
-                Data <span className="text-neutral-600">(required)</span>
-              </h1>
-  
-              {/* Name Fields */}
-              <div className="lg:flex gap-12">
-                <div className="ml-1 md:ml-0 grid">
-                  <label className="text-sm font-bold">Full Name: <span className="text-neutral-600 hover:text-neutral-400">(required)</span> </label>
-                  <input
-                    className="pt-4 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white"
-                    type="text"
-                    id="fullname"
-                    value={form.fullname}
-                    onChange={e => setForm({...form, fullname: e.target.value})}
-                  />
-                </div>
-              </div>
-  
-              {/* Email Field */}
-              <div className="ml-1 md:ml-0 grid">
-                <label className={`text-sm font-bold
-                    ${ isfullname 
-                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
-                        : 'text-sm font-bold'
-                    }
-                    `}>
-                  Phone Number: <span className={`text-neutral-600 hover:text-neutral-400
-                    `}>(required)</span>
-                </label>
+    const formInformation = [
+        {
+            text:'Full Name',
+            input:(
+                <>
                 <input
-                  className={`
-                    ${ isfullname 
-                        ? 'opacity-50 active cursor-not-allowed'
-                        : 'pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
-                    }
-                    
-                    `}
-                  type="number"
-                  id="number"
-                  value={form.phoneNumber}
-                  onChange={e => setForm({...form, phoneNumber: e.target.value})}
-                />
-              </div>
-              <div className="ml-1 md:ml-0 grid">
-                <label className={`text-sm font-bold
-                    ${ isPhoneNumber 
-                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
-                        : 'text-sm font-bold'
-                    }
-                    `}>
-                  Age: 
-                  <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
-                </label>
+                ype="text"
+                id="favoritemusicgender"
+                name="favoritemusicgender"
+              //   disabled={!check}
+                value={form.fullname}
+                onChange={e => setForm({...form, fullname: e.target.value})}
+                className="pt-2 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="text" />
+                </>
+            ),
+            level:"Required"
+        },
+        {
+            text:'Phone Number',
+            input:(
+                <>
+                <input 
+                 ype="text"
+                 id="phoneNumber"
+                 name="phoneNumber"
+                 disabled={isfullname}
+                 value={form.phoneNumber}
+                 onChange={e => setForm({...form, phoneNumber: e.target.value})}
+                className="pt-2 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="number" />
+                </>
+            ),
+            level:"Required"
+        },
+        {
+            text:'Age',
+            input:(
+                <>
                 <input
-                  className={`pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white 
-                    ${ isPhoneNumber
-                        ? 'opacity-1 active cursor-not-allowed'
-                        : 'pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
-                    }
-                    `}
-                  type="number"
-                  id="age"
-                  value={form.age}
-                  onChange={e => setForm({...form, age: e.target.value})}
-                />
-              </div>
-              <div className="ml-1 md:ml-0 grid">
-                <label className={`text-sm font-bold
-                    ${ isAge 
-                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
-                        : 'text-sm font-bold'
-                    }
-                    `}>
-                  Email: 
-                  <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
-                </label>
-                <input
-                  className={`pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
-                    ${ isAge
-                        ? 'opacity-1 active cursor-not-allowed'
-                        : 'pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
-                    }
-                    `}
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={form.email}
-                  onChange={e => setForm({...form, email: e.target.value})}
-                />
-              </div>
-
-              {/* Which you consider that is you musician level?  */}
-
-              <div className="ml-1 md:ml-0 grid">
-                <label className={`text-sm font-bold 
-                    ${ isEmail 
-                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
-                        : 'text-sm font-bold'
-                    }
-                `}>
-                  Which you consider that is you musician level? 
-                  <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
-                </label>
-                <div className='md:flex'>
-                    <label className={`text-sm font-bold 
-                    ${ isEmail 
-                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
-                        : 'text-sm font-bold'
-                    }
-                `}  htmlFor="">Basic:</label>
-                    <input
-                    className={`pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
-                        ${ isEmail
-                            ? 'opacity-1 active cursor-not-allowed'
-                            : 'pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
-                        }
-                    `}
-                    type="checkbox"
-                    id="basic"
-                    name="basic"
-                    value={form.basicLevel}
-                    onChange={(e) => setForm({...form, basicLevel: e.target.value})}
-                    />
-                    <label className={`text-sm font-bold 
-                    ${ isEmail 
-                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
-                        : 'text-sm font-bold'
-                    }
-                `} htmlFor="">Intermidiate:</label>
-                    <input
-                    className={`pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
-                        ${ isEmail
-                            ? 'opacity-1 active cursor-not-allowed'
-                            : 'pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
-                        }
+                 id="Age"
+                 name="Age"
+                 disabled={isPhoneNumber}
+                 value={form.age}
+                 onChange={e => setForm({...form, age: e.target.value})}
+                className="pt-2 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="number" />
+                </>
+            ),
+            level:"Required"
+        },
+        {
+            text:'Email',
+            input:(
+                <>
+                <input 
+                id="Email"
+                name="Email"
+                disabled={isAge}
+                value={form.email}
+                onChange={e => setForm({...form, email: e.target.value})}
+                className="pt-2 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white  " type="email" />
+                </>
+            ),
+            level:"Required"
+        },
+        {
+            text:'Which you consider that is you musician level?',
+            text2:'Musician Level',
+            input:(
+                <>
+                <div className='grid ml-1'>
+                    <div className='flex gap-5 pt-2'>
                         
-                        `}
-                    type="checkbox"
-                    id="intermidiate"
-                    name="intermidiate"
-                    value={form.intermidiateLevel}
-                    onChange={e => setForm({...form, intermidiateLevel: e.target.value})}
-                    />
-                    <label className={`text-sm font-bold 
-                    ${ isEmail 
-                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
-                        : 'text-sm font-bold'
-                    }
-                `} htmlFor="">Advance:</label>
-                    <input
-                    className={`pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
-                        ${ isEmail
-                            ? 'opacity-1 active cursor-not-allowed'
-                            : 'pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
-                        }
-                        `}
-                    type="checkbox"
-                    id="advance"
-                    name="advance"
-                    value={form.advanceLevel}
-                    onChange={e => setForm({...form, advanceLevel: e.target.value})}
-                    />
-                    <label className={`text-sm font-bold 
-                    ${ isEmail 
-                        ? 'opacity-1 cursor-not-allowed focus:opacity-50 active:bg-neutral-500'
-                        : 'text-sm font-bold'
-                    }
-                `} htmlFor="">Professional:</label>
-                    <input
-                    className={`pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
-                        ${ isEmail
-                            ? 'opacity-1 active cursor-not-allowed'
-                            : 'pt-4 w-80 lg:w-103 2xl:w-13 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'    
-                        }
-                        `}
-                    type="checkbox"
-                    id="professional"
-                    name="professional"
-                    value={form.professionalLavel}
-                    onChange={e => setForm({...form, professionalLavel: e.target.value})}
-                    />
+                        {/* --------- BASIC -------- */}
+                        <label className={`${isAnylevelSelected && !form.basicLevel ? 'text-neutral-600 opacity-50':'bg-black' }`} disabled={isAnylevelSelected && !form.basicLevel} htmlFor="">Basic</label>
+                        <input checked={form.basicLevel} onChange={handleCheck} name="basicLevel" type="checkbox" className={`${isAnylevelSelected && !form.basicLevel ? 'text-black opacity-50':'bg-black' }`} disabled={isAnylevelSelected && !form.basicLevel && isEmail} />
+
+                        {/* --------- INTERMIDIATE -------- */}
+                        <label className={`${isAnylevelSelected && !form.intermidiateLevel ? 'text-neutral-600 opacity-50':'bg-black' }`} disabled={isAnylevelSelected && !form.intermidiateLevel} htmlFor="">Intermidiate</label>
+                        <input checked={form.intermidiateLevel} onChange={handleCheck} name='intermidiateLevel' className={`${isAnylevelSelected && !form.intermidiateLevel ? 'text-black opacity-50':'bg-black' }`} disabled={isAnylevelSelected && !form.intermidiateLevel && isEmail} type="checkbox" />
+                        
+                        {/* --------- ADVANCED -------- */}
+                        <label className={`${isAnylevelSelected && !form.advanceLevel ? 'text-neutral-600 opacity-50':'bg-black' }`} disabled={isAnylevelSelected && !form.advanceLevel} htmlFor="">Advance</label>
+                        <input checked={form.advanceLevel} onChange={handleCheck} name='advanceLevel' className={`${isAnylevelSelected && !form.advanceLevel ? 'text-black opacity-50' : 'bg-black'}`} disabled={isAnylevelSelected && !form.intermidiateLevel && isEmail} type="checkbox" />
+
+                        {/* --------- PROFESSIONAL -------- */}
+                        <label className={`${isAnylevelSelected && !form.professionalLavel ? 'text-neutral-600 opacity-50':'bg-black' }`} disabled={isAnylevelSelected && !form.professionalLavel} htmlFor="">Professional</label>
+                        <input checked={form.professionalLavel} onChange={handleCheck} name='professionalLavel' className={`${isAnylevelSelected && !form.professionalLavel ? 'text-black opacity-50' : 'bg-black'}`} disabled={isAnylevelSelected && !form.intermidiateLevel && isEmail} type="checkbox" />
+                    </div>
                 </div>
-              </div>
+                </>
+            ),
+            level:"Required"
+        },
+        {
+            text:'Favorite Music Gender',
+            text2:'FavoriteMusic',
+            input:(
+                <>
+                <input 
+                id="FavoriteMusic"
+                name="FavoriteMusic"
+                value={form.musicGender}
+                disabled={!isCheckboxSelected}
+                onChange={e => setForm({...form, musicGender: e.target.value})}
+                className="pt-2 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="text" />
+                </>
+            ),
+            level:"Required"
+        },
+        {
+            text:'Which type of music do you wanna make?',
+            text2:'makemusic',
+            input:(
+                <>
+                <input
+                id="musicCreation"
+                name="musicCreation"
+                value={form.musicCreation}
+                disabled={isFavoriteMusicGender}
+                onChange={e => setForm({...form, musicCreation: e.target.value})}
+                className="pt-2 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="text" />
+                </>
+            ),
+            level:"Optional"
+        },
+        {
+            text:'Have you already realease a song?',
+            text2:'songrealease',
+            input:(
+                <>
+                <div className='ml-1 grid'>
+                    <div className='flex gap-5 pt-2'>
+                        <label className={`${isMusicRealeased && !form2.musicRealeaseYes
+                            ? 'text-neutral-600 opacity-50' : 'bg-black'
+                        }`} disabled={isMusicRealeased && !form2.musicRealeaseYes} htmlFor="">Yes</label>
+                        <input 
+                        id="songrealeaseYes"
+                        name="musicRealeaseYes"
+                        checked={form2.musicRealeaseYes}
+                        onChange={handleCheckYesNo}
+                        className={`${isMusicRealeased && !form2.musicRealeaseYes
+                            ? 'text-black opacity-50':'bg-white'
+                        }`}
+                        disabled={isMusicRealeased && !form2.musicRealeaseYes && isMusicWannacreated}
+                         type="checkbox" />
+                        <label className={`${isMusicRealeased && !form2.musicRealeaseNo
+                            ? 'text-neutral-600 opacity-50' : 'bg-black'
+                        }`}  disabled={isMusicRealeased && !form2.musicRealeaseNo} htmlFor="">No</label>
+                        <input 
+                        id="songrealeaseNo"
+                        name="musicRealeaseNo"
+                        checked={form2.musicRealeaseNo}
+                        onChange={handleCheckYesNo}
+                        className={`${isMusicRealeased && !form2.musicRealeaseNo 
+                            ? 'text-black opacity-50':'bg-black'
+                        }`}
+                        disabled={isMusicRealeased && !form2.musicRealeaseNo && isMusicWannacreated} type="checkbox" />
+                        <div className='ml-10'>
+                            <label className={`${!isCheckboxSelectedYesNo 
+                                        ? 'bg-black text-black opacity-0 active'
+                                        :'text-sm font-bold pt-6' 
+                            }`} disabled={isMusicRealeased && !form2.musicRealeaseYes} htmlFor="">Share link <span>(optional)</span></label>
+                            <input className={`${!isCheckboxSelectedYesNo
+                                    ? 'bg-black text-black opacity-0 active'
+                                    :'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                            }`} disabled={isMusicRealeased && !form2.musicRealeaseNo && isMusicWannacreated} type="text" />
+                        </div>
+                    </div>
+                </div>
+                </>
+            ),
+            level:"Optional"
+        },
+    ]
+    
+    
+    return (
+        <section className="pt-20 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
+            <form onSubmit={handleSubmit}>
+                <div className="font-mono text-sm space-y-6 pt-6 sm:px-2 md:px-3 lg:px-1 2xl:px-10 text-white">
+                    <h1>Test</h1>
+                    <div>
+                        {formInformation.map((inputName, index) => (
+                            <div className="ml-1 md:ml-0 grid" key={index}>
+                                <label className={twMerge("text-sm font-bold pt-4", 
+                                inputName.text === "Phone Number" && `${ isfullname
+                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                    : 'text-sm font-bold pt-6'   
+                                    }`,
+                                inputName.text === "Age" && `${ isPhoneNumber
+                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                    : 'text-sm font-bold pt-6'   
+                                    }`,
+                                inputName.text === "Email" && `${ isAge
+                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                    : 'text-sm font-bold pt-6'   
+                                    }`,
+                                inputName.text2 === "Musician Level" && `${ isEmail
+                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                    : 'text-sm font-bold pt-6'   
+                                    }`,
+                                inputName.text2 === "FavoriteMusic" && `${!isCheckboxSelected
+                                    ? 'bg-black text-black opacity-0 active'
+                                    :'text-sm font-bold pt-6' 
+                                    }`,
+                                inputName.text2 === "makemusic" && `${isFavoriteMusicGender
+                                    ? 'bg-black text-black opacity-0 active'
+                                    :'text-sm font-bold pt-6' 
+                                    }`,
+                                inputName.text2 === "songrealease" && `${isMusicWannacreated
+                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                    :'text-sm font-bold pt-6' 
+                                    }`,
+                                inputName.text2 === "sharedlink" && `${!isCheckboxSelectedYesNo
+                                    ? 'bg-black text-black opacity-0 active'
+                                    :'text-sm font-bold pt-6' 
+                                    }`,
+                                inputName.input === "Schedule the date" && `${isLink
+                                    ? 'bg-black text-black opacity-0 active'
+                                    :'text-sm font-bold pt-6' 
+                                    }`,
 
-                {/* Favorite music gender */}
 
-              <div className="ml-1 md:ml-0 grid">
-                <label className={`text-sm font-bold
-                    `}>
-                  Favorite music gender 
-                  <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
-                </label>
-                <input
-                  className={`pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white
-                    ${ isBasicLevel
-                        ? 'opacity-1 active cursor-not-allowed'
-                        : 'pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white '    
-                    }
-                    `}
-                  type="text"
-                  id="favoritemusicgender"
-                  name="favoritemusicgender"
-                //   disabled={!check}
-                  value={form.musicGender}
-                  onChange={e => setForm({...form, musicGender: e.target.value})}
-                />
-              </div>
-              <div className="ml-1 md:ml-0 grid">
-                <label className="text-sm font-bold">
-                  Which type of music do you wanna make? <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
-                </label>
-                <input
-                  className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
-                  type="text"
-                  id="musicCreation"
-                  name="musicCreation"
-                  value={form.musicCreation}
-                  onChange={e => setForm({...form, musicCreation: e.target.value})}
-                />
-              </div>
-              <div className="ml-1 md:ml-0 grid">
-                <label className="text-sm font-bold">
-                  Do you have already any music release? <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
-                </label>
-                <input
-                  className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
-                  type="text"
-                  id="musicRelease"
-                  name="musicRelease"
-                  value={form.musicRealease}
-                  onChange={e => setForm({...form, musicRealease: e.target.value})}
-                />
-              </div>
-              <div className="ml-1 md:ml-0 grid">
-                <label className="text-sm font-bold">
-                  If that is the case, share the link here: <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
-                </label>
-                <input
-                  className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
-                  type="text"
-                  id="instagram"
-                  name="instagram"
-                  value={form.link}
-                  onChange={e => setForm({...form, link: e.target.value})}
-                />
-              </div>
-              <div className="ml-1 md:ml-0 grid">
-                <label className="text-sm font-bold">
-                  Scheule date <span className="text-neutral-600 hover:text-neutral-400">(optional)</span>
-                </label>
-                <input
-                  className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
-                  type="text"
-                  id="instagram"
-                  name="instagram"
-                  value={form.dateScheduled}
-                  onChange={e => setForm({...form, dateScheduled: e.target.value})}
-                />
-              </div>
-  
-              {/* Message Field */}
-              <div className="grid ml-1 md:ml-0">
-                <label className="pt-4 text-sm font-bold mb-2">
-                  Message: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
-                </label>
-                <textarea
-                  className="bg-transparent w-80 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
-                  id="message"
-                  value={form.message}
-                  onChange={e => setForm({...form, message: e.target.value})}
-                ></textarea>
-                <span className="text-neutral-600 text-sm ml-83 sm:ml-96 md:ml-72 lg:ml-98 2xl:ml-120">
-                  →
-                </span>
-              </div>
-  
-              {/* Submit Button */}
-              <div className="grid ml-1 md:ml-0">
-              <button
-                    onClick={() => {
-                      setTimeout(() => {
-                        setismodalOpen(true)
-                      }, 1500)
-                    }}
+                                    )} htmlFor="">{inputName.text}</label>
+
+
+                                <label className={twMerge("pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white",
+                                inputName.text === "Phone Number" && ` ${ isfullname 
+                                    ? 'bg-black text-black opacity-0'
+                                    : 'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                    }`,
+                                inputName.text === "Age" && ` ${ isPhoneNumber 
+                                    ? 'bg-black text-black opacity-0 active'
+                                    : 'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                    }`,
+                                inputName.text === "Email" && ` ${ isAge 
+                                    ? 'bg-black text-black opacity-0 active'
+                                    : 'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                    }`,
+                                inputName.text2 === "Musician Level" && ` ${ isEmail 
+                                    ? 'bg-black text-black opacity-0 active'
+                                    : 'pt-2 w-80 lg:w-103 2xl:w-130 border-b border-black'
+                                    }`,
+                                inputName.text2 === "FavoriteMusic" && `${ !isCheckboxSelected
+                                    ? 'bg-black text-black opacity-0 active'
+                                    :'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
+                                    }`,
+                                inputName.text2 === "makemusic" && `${ isFavoriteMusicGender
+                                    ? 'bg-black text-black opacity-0 active'
+                                    :'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
+                                    }`,
+                                inputName.text2 === "songrealease" && `${ isMusicWannacreated
+                                    ? 'bg-black text-black opacity-0 active'
+                                    :'pt-2 w-80 lg:w-103 2xl:w-130 border-b border-black' 
+                                    }`,
+                                inputName.text2 === "sharedlink" && `${ !isCheckboxSelectedYesNo
+                                    ? 'bg-black text-black opacity-0 active'
+                                    :'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
+                                    }`,
+                                
+                                    )} htmlFor="">{inputName.input}</label>
+                            </div>
+                        ))}
+                    </div>  
+                    <button onClick={() => setismodalOpen(true)} className={`w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                        ${!isCheckboxSelectedYesNo
+                            ? "bg-black text-black opacity-0 active"
+                            : "w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
+                        }
+                        `}>Schedule Date</button>
+                        
+                    <ModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
+                        <DayPicker
+                            animate
+                            mode='single'
+                            classNames={{
+                                today: `border-amber-500 text-white`, // Add a border to today's date
+                                selected: `bg-purple-500 border-amber-500 text-white`, // Highlight the selected day
+                                root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
+                                chevron: `${defaultClassNames.chevron} fill-amber-500`,
+                                // chevron: `${defaultClassNames.chevron} fill-amber-100`
+                            }}
+                            selected={selected}
+                            onSelect={setSelected}
+                            defaultMonth={new  Date()}
+                            modifers={modifers}
+                            onDayClick={(day, modifers) => {
+                                if (modifers.selected) {
+                                    setSelectedDate(undefined);
+                                } else {
+                                    setSelectedDate(day)
+                                }
+                            }}
+                            footer={
+                                selectedDate ? `You selected: ${selectedDate?.toDateString()}` : "Pick a day."
+                            }
+                        />
+                        {/* <div className='w-80'>
+                        </div> */}
+                    </ModalCalendar>
+                    <div>
+                        <span className='text-neutral-400'>Selected Date: {selectedDate?.toDateString()}</span>
+                    </div>
+
+                    <div className="grid ml-1 md:ml-0">
+                        <label className={`pt-4 text-sm font-bold mb-2 
+                            ${!isCheckboxSelectedYesNo
+                                ? 'bg-black text-black opacity-0 active'
+                                : 'pt-4 text-sm font-bold mb-2'
+                            }`}>
+                        Message: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
+                        </label>
+                        <textarea
+                        className={`bg-transparent w-80 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white 
+                            ${!isCheckboxSelectedYesNo
+                                ? "bg-black text-black opacity-0 active"
+                                : "bg-transparent w-80 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
+                            }
+                            `}
+                        id="message"
+                        value={form.message}
+                        onChange={e => setForm({...form, message: e.target.value})}
+                        ></textarea>
+                        <span className="text-neutral-600 text-sm ml-83 sm:ml-96 md:ml-72 lg:ml-98 2xl:ml-120">
+                        →
+                        </span> 
+                    </div>
+                </div>
+                <button
+                    onClick={() => setLoading(true)}
                     disabled={isFormIncomplete}
                     type="submit"
                     onTouch
                     className={`w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                        ${!isCheckboxSelectedYesNo
+                            ? "bg-black text-black opacity-0 active"
+                            : "w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
+                        }
                         ${pressed
                             ? 'focus:bg-purple-600 active:bg-purple-600'
                             : "bg-white active:text-white"
                         }
-                        ${isFormIncomplete
+                        ${isFormIncomplete || !isCheckboxSelectedYesNo
                             ? 'opacity-50 cursor-not-allowed bg-neutral-500 focus:opacity-50 active:bg-neutral-500'
                             : 'bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white focus:bg-purple-600 active:bg-purple-600 cursor-pointer'
                         }
@@ -427,21 +501,8 @@ export default function ContactFormService() {
                         )
                     }
                 </button>
-                {/* <button className='bg-white text-black hover:scale-105 transition-transform p-3'
-                
-                >Test modal
-                  
-                </button> */}
-                <Modal open={modalOpen} onClose={() => setismodalOpen(false)}>
-                    <div className='text-center w-86'>
-                        <p className='font-black text-white'>Thank you so much for reaching out, I'll be contacting you in the next couple of days!</p>
-                    </div>
-                </Modal>
-              </div>
-              
-            </div>
-          </form>
-      </section>
-        
+            </form>
+
+        </section>
     )
-} 
+}
