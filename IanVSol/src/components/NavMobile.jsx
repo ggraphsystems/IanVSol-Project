@@ -51,7 +51,7 @@ export default function HamburgerMenu() {
                   ))}
                   <div className="flex items-center justify-center">
                       <button className="bg-white p-3 pl-5 w-50 pr-5 text-black rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-transform active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600">
-                       Contact
+                       <a href="/sections/Contact/">Contact</a>
                       </button>
                   </div>
                 </ul>
