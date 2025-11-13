@@ -1,4 +1,8 @@
+import { useState } from "react"
+
 export default function ServicePage() {
+    const [buttonPressed, setIsbuttonPressed] = useState(false)
+
     return(
         <div>
 
@@ -40,8 +44,14 @@ export default function ServicePage() {
                 </h3>
                 <button
                     onClick={() => window.location.href="/second-pages/ProductionService/"}
-                    className="p-2 px-2 md:mr-3 lg:ml-17 2xl:ml-43 sm:ml-27 text-sm ml-1 bg-white hover:bg-purple-500 hover:scale-105 transition-all duration-200 ease-in-out text-black hover:text-white rounded-xl inline-block [--tw-text-opacity:1]
-                    active:bg-purple-600 active:text-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:text-white focus:bg-purple-600"
+                    className={`p-2 px-2 md:mr-3 lg:ml-17 2xl:ml-43 sm:ml-27 text-sm ml-1 bg-white hover:bg-purple-500 hover:scale-105 transition-all duration-200 ease-in-out text-black hover:text-white rounded-xl inline-block [--tw-text-opacity:1]
+                    active:bg-purple-600 active:text-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:text-white focus:bg-purple-600 
+                    ${buttonPressed
+                        ? `transition-all duration-200 ease-in-out text-black hover:text-white rounded-xl inline-block [--tw-text-opacity:1]
+                    active:bg-purple-600 active:text-white active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:text-white focus:bg-purple-600`
+                        : 'bg-white text-black'
+                    }
+                    `}
                 >
                     Schedule you services →
                 </button>
