@@ -1,6 +1,4 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import ServicePage from "../../components/services/ServicesPage";
 import Layout from "../../layouts/Layout.astro";
 ---
 
@@ -149,7 +147,6 @@ import Layout from "../../layouts/Layout.astro";
             class="p-2 px-2 text-sm ml-16 lg:ml-37 sm:ml-47 2xl:ml-64 bg-white hover:bg-purple-500 hover:scale-105 text-black hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
           active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600"
             href="/second-pages/BitsService/"
-            style="-webkit-tap-highlight-color: transparent; cursor: pointer; touch-action: manipulation;"
           >
             Schedule you services →
           </a>
@@ -169,6 +166,4 @@ import Layout from "../../layouts/Layout.astro";
   <script>
     document.addEventListener("touchstart", function () {}, true);
   </script>
-
-  <!-- <ServicePage client:only="react"/> -->
 </Layout>
