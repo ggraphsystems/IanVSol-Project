@@ -219,8 +219,8 @@ export default function ServicesForm() {
                 text2:'Musician Level',
                 input:(
                     <>
-                    <div className='grid ml-1'>
-                        <div className='flex gap-3 pt-2'>
+                    <div className=' md:grid ml-1'>
+                        <div className='grid grid-cols-1 md:flex gap-3 pt-2'>
                             
                             {/* --------- BASIC -------- */}
                             <label className={`${isAnylevelSelected && !form.basicLevel ? 'text-neutral-600 opacity-50':'bg-black' }`} disabled={isAnylevelSelected && !form.basicLevel} htmlFor="">Basic</label>
@@ -357,7 +357,8 @@ export default function ServicesForm() {
                                 ? 'opacity-50 cursor-not-allowed' : 'hover:border-purple-700'
                             }`}
                             disabled={isMusicRealeased && !form2.musicRealeaseNo } type="checkbox" />
-                            <div className='ml-2'>
+                        </div>
+                            <div className='pt-4'>
                                 <label className={`${!isCheckboxSelectedYes
                                             ? 'bg-black text-black opacity-0 active'
                                             :'text-sm font-bold' 
@@ -366,11 +367,10 @@ export default function ServicesForm() {
                                 <input className={`
                                     ${!isCheckboxSelectedYes
                                         ? 'bg-black text-black opacity-0 active'
-                                        :'w-80 pt-1 text-neutral-3s00 lg:w-03 2xl:w-50 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                        :'w-60 pt-1 text-neutral-3s00 lg:w-03 2xl:w-50 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
                                     }
                                 `} disabled={form2.musicRealeaseNo} type="text" />
                             </div>
-                        </div>
                     </div>
                     </>
                 ),
@@ -382,20 +382,20 @@ export default function ServicesForm() {
     
     
     return (
-        <section className="pt-20 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
+        <section className="pt-44 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
         <div className="px-3 grid md:grid-cols-2 gap-16 lg:mr-18 item-center">
-            <div class="-space-y-6 pt-5 ml-3 text-white">
+            <div class="-space-y-6 pt-5 mr-3 md:ml-3 text-white">
                 <img
                 alt="Ian, the music producer, smiling."
                 class="rounded-lg shadow-lg ml-6 w-80 h-50 md:w-full md:pb-20 md:h-74 object-cover col-span-2 hover:scale-105 transition transform"
                 src="/musician.jpg"
                 />
-                <div class="gap-5 ml-6">
+                <div class="gap-5 pt-15 ml-2 md:pt-0 md:ml-6">
                     <h3 class="text-2xl ml-4 lg:ml-0 md:text-2xl font-bold">
                         Production
                     </h3>
                     <p
-                    class="ml-3 pt-5 w-80 md:w-lg text-neutral-300 px-2 pb-30 md:pb-6 lg:pb-20 text-sm md:text-sm lg:-ml-2 lg:w-120 text-text-secondary-light dark:text-text-secondary-dark"
+                    class="ml-3 pt-5 w-85 md:w-lg text-neutral-300 px-2 pb-30 md:pb-6 lg:pb-20 text-sm md:text-sm lg:-ml-2 lg:w-120 text-text-secondary-light dark:text-text-secondary-dark"
                     >
                     With over a decade of experience in the music industry, I've had the
                     pleasure of working with a diverse range of talented artists. My
@@ -407,16 +407,16 @@ export default function ServicesForm() {
                 <form onSubmit={handleSubmit}>
                     <div className="font-mono text-sm space-y-6 pt-6 sm:px-2 md:px-3 lg:px-0 2xl:px-10 text-white">
                         <h3
-                        class="text-4xl sm:text-4xl mb-20 md:mb-5 ml-8 md:ml-4 text-white lg:ml-0 md:text-4xl font-bold"
+                        class="text-3xl sm:text-4xl mb-20 md:mb-5 ml-8 md:ml-4 text-white lg:ml-0 md:text-4xl font-bold"
                         >
                         Let's get in touch!
                         </h3>
                         <p
-                        class="w-85 md:w-lg text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
+                        class="w-80 ml-5 md:w-lg text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
                         >
                         Complete this form below to be able to know you better and contacting you as soon as possible.
                         </p>
-                        <div className='ml-2'>
+                        <div className='ml-3 md:ml-2'>
                             {formInformation.map((inputName, index) => (
                                 <div className="ml-1 md:ml-0 grid" key={index}>
                                     <label className={twMerge("text-sm font-bold pt-4", 
@@ -494,9 +494,9 @@ export default function ServicesForm() {
                         <button onClick={() => setismodalOpen(true)} className={`w-44 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
                             ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                 ? "bg-black text-black opacity-0 active"
-                                : "w-24 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
+                                : "w-24 ml-5 md:ml-0 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
                             }
-                            `}>Schedule Meeting Date</button>
+                            `}>Schedule Date</button>
                             
                         <ModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
                             <DayPicker
@@ -530,29 +530,29 @@ export default function ServicesForm() {
                         <div>
                             <span className={`text-neutral-400 ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                 ? "bg-black text-black opacity-0 active"
-                                : "text-neutral-400"
+                                : "text-neutral-400 ml-5 md:ml-0 "
                             }`}>Selected Date: {selectedDate?.toDateString()}</span>
                         </div>
                         <div className="grid ml-1 md:ml-0">
                             <label className={`pt-2 text-sm font-bold mb-2 
                                 ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                     ? 'bg-black text-black opacity-0 active'
-                                    : 'pt-2 text-sm font-bold mb-2'
+                                    : 'pt-2 ml-5 md:ml-0 text-sm font-bold mb-2'
                                 }`}>
                             Message: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
                             </label>
                             <textarea
-                            className={`bg-transparent w-80 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white 
+                            className={`bg-transparent w-70 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white 
                                 ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                     ? "bg-black text-black opacity-0 active"
-                                    : "bg-transparent w-80 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
+                                    : "bg-transparent w-70 ml-5 md:ml-0 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
                                 }
                                 `}
                             id="message"
                             value={form.message}
                             onChange={e => setForm({...form, message: e.target.value})}
                             ></textarea>
-                            <span className="text-neutral-600 text-sm ml-83 sm:ml-96 md:ml-72 lg:ml-98 2xl:ml-120">
+                            <span className="text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-72 lg:ml-98 2xl:ml-120">
                             →
                             </span> 
                         </div>
@@ -562,7 +562,7 @@ export default function ServicesForm() {
                         disabled={isFormIncomplete}
                         type="submit"
                         onTouch
-                        className={`w-34 mb-30 p-2 ml-10 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                        className={`w-34 mb-30 p-2 ml-5 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
                             ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                 ? "bg-black text-black opacity-0 active"
                                 : "w-34 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
