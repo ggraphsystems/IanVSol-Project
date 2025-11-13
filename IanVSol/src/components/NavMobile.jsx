@@ -40,7 +40,7 @@ export default function HamburgerMenu() {
                     }}
                     key={href} 
                     className="flex justify-center">
-                      <a onClick={() => setOpen(false)} className="p-3 pl-5 w-50 pr-5 rounded-2xl bg-neutral-800 hover:bg-purple-500 hover:scale-105 hover:text-white transition-transform
+                      <a onClick={() => setOpen(false)} className="p-3 pl-5 w-50 pr-5 rounded-2xl bg-neutral-800 hover:bg-purple-500 hover:scale-105 hover:text-white transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block 
                       active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600
                       " href={href}>
                         <span className="ml-14 text-base">
@@ -50,9 +50,7 @@ export default function HamburgerMenu() {
                     </motion.li>
                   ))}
                   <div className="flex items-center justify-center">
-                      <button className="bg-white p-3 pl-5 w-50 pr-5 text-black rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-transform active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600">
-                       <a href="/sections/Contact/">Contact</a>
-                      </button>
+                       <a className="bg-white p-3 pl-5 w-50 pr-5 text-black rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600" href="/sections/Contact/">Contact</a>
                   </div>
                 </ul>
               {/* <div className="text-white fixed left-2 shadow-4xl right-0 top-[1.5rem] p-5">
