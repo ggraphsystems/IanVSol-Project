@@ -50,7 +50,7 @@ export default function HamburgerMenu() {
                     </motion.li>
                   ))}
                   <div className="flex items-center justify-center">
-                       <a className="bg-white p-3 pl-5 w-50 pr-5 text-black rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600" href="/sections/Contact/">Contact</a>
+                       <a className="bg-white p-3 pl-17 w-50 pr-5 text-black rounded-2xl hover:bg-purple-500 hover:scale-105 hover:text-white transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600" href="/sections/Contact/">Contact</a>
                   </div>
                 </ul>
               {/* <div className="text-white fixed left-2 shadow-4xl right-0 top-[1.5rem] p-5">
