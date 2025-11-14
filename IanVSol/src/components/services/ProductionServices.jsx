@@ -8,6 +8,7 @@ import  {musicCreationTypes}  from "../lib/GendresList"
 import { customStyles } from "../lib/styles/SelectStyles"
 import  Select  from "react-select"
 import  makeAnimated from "react-select/animated"
+import {Calendar}  from 'feather-icons-react'
 
 
 export default function ServicesForm() {
@@ -163,7 +164,7 @@ export default function ServicesForm() {
                   //   disabled={!check}
                     value={form.fullname}
                     onChange={e => setForm({...form, fullname: e.target.value})}
-                    className="pt-2 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="text" />
+                    className="pt-2 w-76 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="text" />
                     </>
                 ),
                 level:"Required"
@@ -179,7 +180,7 @@ export default function ServicesForm() {
                      disabled={isfullname}
                      value={form.phoneNumber}
                      onChange={e => setForm({...form, phoneNumber: e.target.value})}
-                    className="pt-2 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="number" />
+                    className="pt-2 w-76 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="number" />
                     </>
                 ),
                 level:"Required"
@@ -194,7 +195,7 @@ export default function ServicesForm() {
                      disabled={isPhoneNumber}
                      value={form.age}
                      onChange={e => setForm({...form, age: e.target.value})}
-                    className="pt-2 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="number" />
+                    className="pt-2 w-76 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white" type="number" />
                     </>
                 ),
                 level:"Required"
@@ -209,7 +210,7 @@ export default function ServicesForm() {
                     disabled={isAge}
                     value={form.email}
                     onChange={e => setForm({...form, email: e.target.value})}
-                    className="pt-2 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white  " type="email" />
+                    className="pt-2 w-76 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white  " type="email" />
                     </>
                 ),
                 level:"Required"
@@ -219,8 +220,8 @@ export default function ServicesForm() {
                 text2:'Musician Level',
                 input:(
                     <>
-                    <div className=' md:grid ml-1'>
-                        <div className='grid grid-cols-1 md:flex gap-3 pt-2'>
+                    <div className='md:grid ml-1'>
+                        <div className='grid grid-cols-1 md:grid md:grid-cols-2 lg:flex gap-3 pt-3'>
                             
                             {/* --------- BASIC -------- */}
                             <label className={`${isAnylevelSelected && !form.basicLevel ? 'text-neutral-600 opacity-50':'bg-black' }`} disabled={isAnylevelSelected && !form.basicLevel} htmlFor="">Basic</label>
@@ -383,7 +384,7 @@ export default function ServicesForm() {
     
     return (
         <section className="pt-44 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
-        <div className="px-3 grid md:grid-cols-2 gap-16 lg:mr-18 item-center">
+        <div className="px-2 grid md:grid-cols-2 gap-16 lg:mr-18 item-center">
             <div class="-space-y-6 pt-5 mr-3 md:ml-3 text-white">
                 <img
                 alt="Ian, the music producer, smiling."
@@ -391,11 +392,11 @@ export default function ServicesForm() {
                 src="/musician.jpg"
                 />
                 <div class="gap-5 pt-15 ml-2 md:pt-0 md:ml-6">
-                    <h3 class="text-2xl ml-4 lg:ml-0 md:text-2xl font-bold">
+                    <h3 class="text-2xl ml-4 md:ml-1 lg:ml-0 md:text-2xl font-bold">
                         Production
                     </h3>
                     <p
-                    class="ml-3 pt-5 w-85 md:w-lg text-neutral-300 px-2 pb-30 md:pb-6 lg:pb-20 text-sm md:text-sm lg:-ml-2 lg:w-120 text-text-secondary-light dark:text-text-secondary-dark"
+                    class="ml-3 -mb-5 pt-5 w-85 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-6 lg:pb-20 text-sm md:text-sm lg:-ml-2 lg:w-120 text-text-secondary-light dark:text-text-secondary-dark"
                     >
                     With over a decade of experience in the music industry, I've had the
                     pleasure of working with a diverse range of talented artists. My
@@ -405,18 +406,18 @@ export default function ServicesForm() {
                 </div>
             </div>
                 <form onSubmit={handleSubmit}>
-                    <div className="font-mono text-sm space-y-6 pt-6 sm:px-2 md:px-3 lg:px-0 2xl:px-10 text-white">
+                    <div className="font-mono text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 2xl:px-10 text-white">
                         <h3
-                        class="text-3xl sm:text-4xl mb-20 md:mb-5 ml-8 md:ml-4 text-white lg:ml-0 md:text-4xl font-bold"
+                        class="text-3xl sm:text-4xl mb-20 md:mb-5 ml-8 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
                         >
                         Let's get in touch!
                         </h3>
                         <p
-                        class="w-80 ml-5 md:w-lg text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
+                        class="w-80 ml-5 -mb-12 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
                         >
                         Complete this form below to be able to know you better and contacting you as soon as possible.
                         </p>
-                        <div className='ml-3 md:ml-2'>
+                        <div className='ml-4 md:ml-1'>
                             {formInformation.map((inputName, index) => (
                                 <div className="ml-1 md:ml-0 grid" key={index}>
                                     <label className={twMerge("text-sm font-bold pt-4", 
@@ -457,46 +458,57 @@ export default function ServicesForm() {
                                         )} htmlFor="">{inputName.text}</label>
 
 
-                                    <label className={twMerge("pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white",
+                                    <label className={twMerge("pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white",
                                     inputName.text === "Phone Number" && ` ${ isfullname 
                                         ? 'bg-black text-black opacity-0'
-                                        : 'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                        : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
                                         }`,
                                     inputName.text === "Age" && ` ${ isPhoneNumber 
                                         ? 'bg-black text-black opacity-0 active'
-                                        : 'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                        : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
                                         }`,
                                     inputName.text === "Email" && ` ${ isAge 
                                         ? 'bg-black text-black opacity-0 active'
-                                        : 'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                        : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
                                         }`,
                                     inputName.text2 === "Musician Level" && ` ${ isEmail 
                                         ? 'bg-black text-black opacity-0 active'
-                                        : 'pt-2 w-80 lg:w-103 2xl:w-130 border-b border-black'
+                                        : 'pt-2 w-76 lg:w-103 2xl:w-130 border-b border-black'
                                         }`,
                                     inputName.text2 === "makemusic" && `${ !isCheckboxSelected
                                         ? 'bg-black text-black opacity-0 active'
-                                        :'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
+                                        :'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
                                         }`,
                                     inputName.text2 === "songrealease" && `${ !isMusicWannacreated
                                         ? 'bg-black text-black opacity-0 active'
-                                        :'pt-2 w-80 lg:w-103 2xl:w-130 border-b border-black' 
+                                        :'pt-2 w-76 lg:w-103 2xl:w-130 border-b border-black' 
                                         }`,
                                     inputName.text2 === "sharedlink" && `${ !isCheckboxSelectedYes
                                         ? 'bg-black text-black opacity-0 active'
-                                        :'pt-2 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
+                                        :'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
                                         }`,
                                     
                                         )} htmlFor="">{inputName.input}</label>
                                 </div>
                             ))}
                         </div>  
-                        <button onClick={() => setismodalOpen(true)} className={`w-44 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
-                            ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
-                                ? "bg-black text-black opacity-0 active"
-                                : "w-24 ml-5 md:ml-0 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
-                            }
-                            `}>Schedule Date</button>
+                        <div className='flex gap-3'>
+                            <button onClick={() => setismodalOpen(true)} className={`w-44 p-3 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                                ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
+                                    ? "bg-black text-black opacity-0 active"
+                                    : "w-24 ml-5 md:ml-0 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
+                                }
+                                `}>Schedule Meeting Date
+                            </button>
+                            <span className={`pt-4
+                                ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
+                                    ? "hidden"
+                                    : "pt-3"
+                                }
+                                `}>
+                                <Calendar/>
+                            </span>
+                        </div>
                             
                         <ModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
                             <DayPicker
@@ -524,7 +536,7 @@ export default function ServicesForm() {
                                     selectedDate ? `You selected: ${selectedDate?.toDateString()}` : "Pick a day."
                                 }
                             />
-                            {/* <div className='w-80'>
+                            {/* <div className='w-76'>
                             </div> */}
                         </ModalCalendar>
                         <div>
@@ -552,7 +564,7 @@ export default function ServicesForm() {
                             value={form.message}
                             onChange={e => setForm({...form, message: e.target.value})}
                             ></textarea>
-                            <span className="text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-72 lg:ml-98 2xl:ml-120">
+                            <span className="text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-65 lg:ml-98 2xl:ml-120">
                             →
                             </span> 
                         </div>
@@ -562,7 +574,7 @@ export default function ServicesForm() {
                         disabled={isFormIncomplete}
                         type="submit"
                         onTouch
-                        className={`w-34 mb-30 p-2 ml-5 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                        className={`w-34 mb-30 p-2 ml-5 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
                             ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                 ? "bg-black text-black opacity-0 active"
                                 : "w-34 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
