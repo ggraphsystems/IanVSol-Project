@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ServicesForm from "../../components/services/MixServices";
+import Footer from "../Footer.astro";
 ---
 
 <!-- ------- Contact services form ------- -->
@@ -21,4 +22,5 @@ import ServicesForm from "../../components/services/MixServices";
     </ul>
   </nav>
   <ServicesForm client:only="react" />
+  <Footer />
 </BaseLayout>

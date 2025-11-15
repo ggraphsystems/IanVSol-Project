@@ -383,7 +383,7 @@ export default function ServicesForm() {
     
     return (
         <section className="pt-44 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
-        <div className="px-0 -ml-1 grid md:grid-cols-2 gap-16 lg:mr-18 item-center">
+        <div className="px-0 -ml-1 lg:ml-20 grid md:grid-cols-2 gap-16 lg:mr-18 item-center">
             <div class="-space-y-6 pt-5 mr-3 ml-3 text-white">
                 <img
                 alt="Ian, the music producer, smiling."
@@ -395,7 +395,7 @@ export default function ServicesForm() {
                         Master
                     </h3>
                     <p
-                    class="ml-3 pt-5 w-85 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-6 lg:pb-20 text-sm md:text-sm lg:-ml-2 lg:w-120 text-text-secondary-light dark:text-text-secondary-dark"
+                    class="ml-3 pt-5 w-85 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-6 lg:pb-20 text-sm md:text-sm lg:-ml-2 lg:w-110 2xl:w-md text-text-secondary-light dark:text-text-secondary-dark"
                     >
                     With over a decade of experience in the music industry, I've had the
                     pleasure of working with a diverse range of talented artists. My
@@ -412,14 +412,14 @@ export default function ServicesForm() {
                         Let's get in touch!
                         </h3>
                         <p
-                        class="w-75 ml-5 -mb-12 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
+                        class="w-75 ml-5 -mb-12 md:mb-3 lg:-mb-5 md:ml-0 2xl:w-lg md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
                         >
                         Complete this form below to be able to know you better and contacting you as soon as possible.
                         </p>
                         <div className='ml-5 md:ml-1'>
                             {formInformation.map((inputName, index) => (
                                 <div className="ml-1 md:ml-0 grid" key={index}>
-                                    <label className={twMerge("text-sm font-bold pt-4", 
+                                    <label className={twMerge("text-sm font-bold pt-4 md:pt-8 lg:pt-6 2xl:pt-8", 
                                     inputName.text === "Phone Number" && `${ isfullname
                                         ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
                                         : 'text-sm font-bold pt-6'   
@@ -572,7 +572,7 @@ export default function ServicesForm() {
                         disabled={isFormIncomplete}
                         type="submit"
                         onTouch
-                        className={`w-34 mb-30 p-2 ml-5 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                        className={`w-34 mb-30 p-2 ml-5 lg:ml-9 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
                             ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                 ? "bg-black text-black opacity-0 active"
                                 : "w-34 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
