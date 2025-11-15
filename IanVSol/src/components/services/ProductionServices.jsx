@@ -417,7 +417,7 @@ export default function ServicesForm() {
                         >
                         Complete this form below to be able to know you better and contacting you as soon as possible.
                         </p>
-                        <div className='ml-4 md:ml-1'>
+                        <div className='ml-6 md:ml-1'>
                             {formInformation.map((inputName, index) => (
                                 <div className="ml-1 md:ml-0 grid" key={index}>
                                     <label className={twMerge("text-sm font-bold md:pt-8 lg:pt-6 2xl:pt-8", 
