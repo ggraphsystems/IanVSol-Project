@@ -413,11 +413,11 @@ export default function ServicesForm() {
                         Let's get in touch!
                         </h3>
                         <p
-                        class="w-80 ml-5 -mb-12 md:mb-2 lg:-mb-3 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm lg:-ml-1 2xl:w-lg text-text-secondary-light dark:text-text-secondary-dark"
+                        class="w-80 ml-8 -mb-12 md:mb-2 lg:-mb-3 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm lg:-ml-1 2xl:w-lg text-text-secondary-light dark:text-text-secondary-dark"
                         >
                         Complete this form below to be able to know you better and contacting you as soon as possible.
                         </p>
-                        <div className='ml-3 md:ml-1'>
+                        <div className='ml-6 md:ml-1'>
                             {formInformation.map((inputName, index) => (
                                 <div className="ml-5 md:ml-0 grid" key={index}>
                                     <label className={twMerge("text-sm font-bold pt-4  md:pt-8 lg:pt-6 2xl:pt-8", 
