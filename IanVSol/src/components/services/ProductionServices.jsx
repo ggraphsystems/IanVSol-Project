@@ -27,7 +27,6 @@ export default function ServicesForm() {
             musicGender:"",
             musicCreation:"",
             link:"",
-            dateScheduled:"",
             message: ""
           });
 
@@ -37,11 +36,13 @@ export default function ServicesForm() {
         })
 
         const [optionSelected, setisSelectedOption] = useState([])
-        const gendreSelectedList = []
+        const [musicLevelSelected, setmusicLevelSelected] = useState("")
+        const [gendreSelectedList, setgendreSelectedList ] = useState("")
 
         const [selected, setSelected] = useState(new Date());
         console.log(selected)
         const [selectedDate, setSelectedDate] = useState(undefined)
+        const [selectedMeetngDate, setSelectedMeetingDate] = useState(undefined)
 
         const modifers = {selected: selectedDate};
         if (selectedDate) {
@@ -62,8 +63,7 @@ export default function ServicesForm() {
         const isCheckboxSelectedYes = form2.musicRealeaseYes
         const isCheckboxSelectedNo = form2.musicRealeaseNo
         const isLink = form.link.trim().length < 10
-        const isDataSchedule = form.dateScheduled.trim() === "";
-        const isFormIncomplete = form.message.trim().length < 6;
+        const isFormIncomplete = form.message.trim().length < 1;
 
 
         const handleCheck = (e) => {
@@ -76,6 +76,7 @@ export default function ServicesForm() {
                 [name]:checked,
             }));
             console.log(name)
+            setmusicLevelSelected(name)
           }
 
         const handleCheckYesNo = (e) => {
@@ -91,52 +92,57 @@ export default function ServicesForm() {
 
         const handleSubmit = async e => {
             e.preventDefault()
-            console.log(
-                form.fullname, 
-                form.phoneNumber, 
-                form.age,
-                form.email,
-                form.basicLevel,
-                form.intermidiateLevel,
-                form.advanceLevel,
-                form.professionalLavel,
-                form.musicGender,
-                form.musicCreation,
-                form.musicRealease,
-                form.link,
-                form.dateScheduled,
-                form.message)
-            // setLoading(true)
-            // try {
-            //     const response = await fetch("https://adg4x2g63h.execute-api.us-east-2.amazonaws.com/prod/send-email", {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type':'application/json',
-            //         },
-            //         body: JSON.stringify({
-            //             name:form.fullname,
-            //             subject:form.email,
-            //             phone:form.phoneNumber,
-            //             instagram:instagram,
-            //             message:form.messageaz
-            //         }),
-            //     });
+            // console.log(
+            //     form.fullname, 
+            //     form.phoneNumber, 
+            //     form.age,
+            //     form.email,
+            //     form.basicLevel,
+            //     form.intermidiateLevel,
+            //     form.advanceLevel,
+            //     form.professionalLavel,
+            //     gendreSelectedList,
+            //     form.musicCreation,
+            //     form.musicRealease,
+            //     form.link,
+            //     selectedDate,
+            //     form.message)
+            setLoading(true)
+            try {
+                const response = await fetch("https://2q4cq8ihw3.execute-api.us-east-2.amazonaws.com/prod-services/send-email-service", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json',
+                    },
+                    body: JSON.stringify({
+                        service:"Production",
+                        fullname:form.fullname,
+                        phoneNumber:form.phoneNumber,
+                        age:form.age,
+                        subject_emaill:form.email,
+                        music_user_created:optionSelected,
+                        music_level:musicLevelSelected,
+                        realese_song_yes_no:form2.musicRealeaseYes || form2.musicRealeaseNo,
+                        meeting_date:selectedMeetngDate,
+                        message:form.message
+                    }),
+                });
     
-            //     if (!response.ok) {
-            //         throw new Error(`HTTP error! status: ${response.status}`);
-            //     }
-            //     window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
                 
-            //     setLoading(false)
-            //     setismodalOpen(true)
-            //     const result = await response.json();
-            //     console.log(result)
+                setLoading(false)
+                setismodalOpen(true)
+                const result = await response.json();
+                console.log(result)
     
                 
-            //   } catch (error) {
-            //     console.log(error)
-            //     setLoading(false)
-            //   } 
+              } catch (error) {
+                console.log(error)
+                setLoading(false)
+              } 
             //   setTimeout(() => {
             //     setForm(
             //         {
@@ -223,8 +229,8 @@ export default function ServicesForm() {
                     <div className='md:grid ml-1'>
                         <div className='grid grid-cols-1 md:grid md:grid-cols-2 lg:flex gap-3 pt-3'>
                             
-                            {/* --------- BASIC -------- */}
-                            <label className={`${isAnylevelSelected && !form.basicLevel ? 'text-neutral-600 opacity-50':'bg-black' }`} disabled={isAnylevelSelected && !form.basicLevel} htmlFor="">Basic</label>
+                              {/* --------- BASIC -------- */}
+                              <label className={`${isAnylevelSelected && !form.basicLevel ? 'text-neutral-600 opacity-50':'bg-black' }`} disabled={isAnylevelSelected && !form.basicLevel} htmlFor="">Basic</label>
                             <input checked={form.basicLevel} onChange={handleCheck} name="basicLevel" type="checkbox" className={` appearance-none
                                 w-5 h-5 
                                 border-2 border-gray-400
@@ -290,13 +296,14 @@ export default function ServicesForm() {
                         closeMenuOnSelect={false}
                         onChange={(selectedOption) => {
                             console.log(selectedOption)
-                            setisSelectedOption(selectedOption || [])
-                            console.log("This is from the useState: ", optionSelected)
-                            gendreSelectedList.push(selectedOption)
-                            console.log("This is the list: ", gendreSelectedList)
-                            gendreSelectedList.forEach(item => {
-                                console.log("For each of the list: ", item)
-                            })
+                            // setisSelectedOption(selectedOption)
+                            // console.log("This is from the useState: ", optionSelected)
+                            // gendreSelectedList.forEach(item => {
+                            //     console.log("For each of the list: ", item)
+                            // })
+                            const values = selectedOption.map(item => item.value);
+                            setisSelectedOption(values)
+                            console.log(optionSelected)
                             
                         }}
                         options={musicCreationTypes}
@@ -530,6 +537,7 @@ export default function ServicesForm() {
                                         setSelectedDate(undefined);
                                     } else {
                                         setSelectedDate(day)
+                                        setSelectedMeetingDate(day.toDateString())
                                     }
                                 }}
                                 footer={
