@@ -2,6 +2,7 @@ import { twMerge } from 'tailwind-merge'
 import { useState, useEffect, use } from 'react'
 import { Day, DayPicker, getDefaultClassNames } from "react-day-picker"
 import "react-day-picker/style.css"
+import Modal from '../ModalEmail';
 import ModalCalendar from '../ModalCalendar';
 import { ClipLoader } from "react-spinners";
 import  {musicCreationTypes}  from "../lib/GendresList"
@@ -51,6 +52,7 @@ export default function ServicesForm() {
 
         const defaultClassNames = getDefaultClassNames();
         const [modalOpen, setismodalOpen] = useState(false)
+        const [modalOpen2, setismodalOpen2] = useState(false)
 
         const isfullname = form.fullname.trim().length < 5;
         const isPhoneNumber = form.phoneNumber.trim().length < 6;
@@ -119,10 +121,11 @@ export default function ServicesForm() {
                         fullname:form.fullname,
                         phoneNumber:form.phoneNumber,
                         age:form.age,
-                        subject_emaill:form.email,
-                        music_user_created:optionSelected,
+                        subject_email:form.email,
+                        music_user_created:optionSelected.join(", "),
                         music_level:musicLevelSelected,
                         realese_song_yes_no:form2.musicRealeaseYes || form2.musicRealeaseNo,
+                        shared_link:form.link,
                         meeting_date:selectedMeetngDate,
                         message:form.message
                     }),
@@ -134,7 +137,7 @@ export default function ServicesForm() {
                 window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
                 
                 setLoading(false)
-                setismodalOpen(true)
+                setismodalOpen2(true)
                 const result = await response.json();
                 console.log(result)
     
@@ -143,16 +146,30 @@ export default function ServicesForm() {
                 console.log(error)
                 setLoading(false)
               } 
-            //   setTimeout(() => {
-            //     setForm(
-            //         {
-            //             fullname:"",
-            //             phoneNumber: "",
-            //             email: "",
-            //             message: ""}
-            //         )
-            //     setInstagram("")
-            //   }, 800)
+              setTimeout(() => {
+                setForm(
+                    {
+                        fullname:"",
+                        phoneNumber: "",
+                        age:"",
+                        email: "",
+                        basicLevel:false,
+                        intermidiateLevel:false,
+                        advanceLevel:false,
+                        professionalLavel:false,
+                        musicGender:"",
+                        musicCreation:"",
+                        link:"",
+                        message: ""
+                    }
+                ),
+                setForm2({
+                    musicRealeaseYes:false,
+                    musicRealeaseNo:false,
+                })
+                setisSelectedOption([])
+                setmusicLevelSelected("")
+              }, 800)
             // finally{
             //     console.log("Operation finish")
             //   }
@@ -291,26 +308,28 @@ export default function ServicesForm() {
                 text2:'makemusic',
                 input:(
                     <>
-                    <Select
-                        isMulti
-                        closeMenuOnSelect={false}
-                        onChange={(selectedOption) => {
-                            console.log(selectedOption)
-                            // setisSelectedOption(selectedOption)
-                            // console.log("This is from the useState: ", optionSelected)
-                            // gendreSelectedList.forEach(item => {
-                            //     console.log("For each of the list: ", item)
-                            // })
-                            const values = selectedOption.map(item => item.value);
-                            setisSelectedOption(values)
-                            console.log(optionSelected)
-                            
-                        }}
-                        options={musicCreationTypes}
-                        components={animatedComponents}
-                        styles={customStyles}
-                        className="bg-black text-white"
-                    />
+                    <div className='w-80 md:w-125'>
+                        <Select
+                            isMulti
+                            closeMenuOnSelect={false}
+                            onChange={(selectedOption) => {
+                                console.log(selectedOption)
+                                // setisSelectedOption(selectedOption)
+                                // console.log("This is from the useState: ", optionSelected)
+                                // gendreSelectedList.forEach(item => {
+                                //     console.log("For each of the list: ", item)
+                                // })
+                                const values = selectedOption.map(item => item.value);
+                                setisSelectedOption(values)
+                                console.log(optionSelected)
+                                
+                            }}
+                            options={musicCreationTypes}
+                            components={animatedComponents}
+                            styles={customStyles}
+                            className="bg-black text-white"
+                        />
+                    </div>
                     </>
                 ),
                 level:"Optional"
@@ -371,11 +390,14 @@ export default function ServicesForm() {
                                             ? 'bg-black text-black opacity-0 active'
                                             :'text-sm font-bold' 
                                 }`} disabled={isMusicRealeased && !form2.musicRealeaseYes} htmlFor="">Share link 
-                                <span className={`ml-3 text-neutral-600`}>(optional)</span></label>
-                                <input className={`
+                                <span className={`ml-2 text-neutral-600`}>(optional)</span></label>
+                                <input 
+                                value={form.link} 
+                                onChange={e => setForm({...form, link: e.target.value})} 
+                                className={`
                                     ${!isCheckboxSelectedYes
                                         ? 'bg-black text-black opacity-0 active'
-                                        :'w-60 pt-1 text-neutral-3s00 lg:w-03 2xl:w-50 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                        :'w-60 pt-1 ml-1 text-neutral-3s00 lg:w-03 2xl:w-50 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
                                     }
                                 `} disabled={form2.musicRealeaseNo} type="text" />
                             </div>
@@ -410,24 +432,226 @@ export default function ServicesForm() {
                     passion is to bring a creative vision to life through sound, ensuring
                     every track is polished, powerful, and emotionally resonant.
                     </p>
+                    
                 </div>
             </div>
+            <div className="font-mono text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 2xl:px-10 text-white">
+                <h3
+                class="text-3xl sm:text-4xl mb-20 md:mb-5 ml-8 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
+                >
+                Let's get in touch!
+                </h3>
+                <p
+                class="w-80 ml-5 md:mb-7 -mb-15 lg:-mb-6 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm 2xl:w-lg lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
+                >
+                Complete this form below to be able to know you better and contacting you as soon as possible.
+                </p>
+                <div className='flex pt-3 ml-5 md:ml-0 gap-3'>
+                    <button onTouch onClick={() => setismodalOpen(true)} className={`w-44 p-2 text-black bg-white hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
+          active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600
+                        
+                        `}>
+                        Schedule Meeting Date    
+                    </button>
+                    <span className={`pt-3 text-white`}>
+                        <Calendar/>
+                    </span>
+
+                    </div>
+                    <ModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
+                        <DayPicker
+                            animate
+                            mode='single'
+                            classNames={{
+                                today: `border-amber-500 text-white`, // Add a border to today's date
+                                selected: `bg-purple-500 border-amber-500 text-white`, // Highlight the selected day
+                                root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
+                                chevron: `${defaultClassNames.chevron} fill-amber-500`,
+                                // chevron: `${defaultClassNames.chevron} fill-amber-100`
+                            }}
+                            selected={selected}
+                            onSelect={setSelected}
+                            defaultMonth={new  Date()}
+                            modifers={modifers}
+                            onDayClick={(day, modifers) => {
+                                if (modifers.selected) {
+                                    setSelectedDate(undefined);
+                                } else {
+                                    setSelectedDate(day)
+                                    setSelectedMeetingDate(day.toDateString())
+                                }
+                            }}
+                            footer={
+                                selectedDate ? `You selected: ${selectedDate?.toDateString()}` : "Pick a day."
+                            }
+                        />
+                        </ModalCalendar>
+                        <div className='pt-1 ml-6 -mb-0.5 md:ml-1'>
+                            <span className={`text-neutral-400 `}>Selected Date: {selectedDate?.toDateString()}</span>
+                        </div>
+
+                        {/* <button onClick={() => setismodalOpen2(true)} className='bg-white rounded-2xl p-2 px-2 text-black'>
+                            Test
+                        </button> */}
+
+
+                    {/* <ModalFormServices open={modalOpen2} onClose={() => setismodalOpen2(false)}>
+                        <form onSubmit={handleSubmit}>
+                                <div>
+                                    <div className='ml-6 md:ml-1'>
+                                        {formInformation.map((inputName, index) => (
+                                            <div className="ml-1 md:ml-0 grid" key={index}>
+                                                <label className={twMerge("text-sm font-bold md:pt-8 lg:pt-6 2xl:pt-8", 
+                                                inputName.text === "Full Name" && `${ !selectedMeetngDate
+                                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                                    : 'text-sm font-bold pt-6'   
+                                                    }`,
+                                                inputName.text === "Phone Number" && `${ isfullname
+                                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                                    : 'text-sm font-bold pt-6'   
+                                                    }`,
+                                                inputName.text === "Age" && `${ isPhoneNumber
+                                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                                    : 'text-sm font-bold pt-6'   
+                                                    }`,
+                                                inputName.text === "Email" && `${ isAge
+                                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                                    : 'text-sm font-bold pt-6'   
+                                                    }`,
+                                                inputName.text2 === "Musician Level" && `${ isEmail
+                                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                                    : 'text-sm font-bold pt-6'   
+                                                    }`,
+                                                inputName.text2 === "makemusic" && `${ !isCheckboxSelected
+                                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                                    : 'text-sm font-bold pt-6'   
+                                                    }`,
+                                                inputName.text2 === "songrealease" && `${!isMusicWannacreated
+                                                    ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                                    :'text-sm font-bold pt-6' 
+                                                    }`,
+                                                inputName.text2 === "sharedlink" && `${!isCheckboxSelectedYes
+                                                    ? 'bg-black text-black opacity-0 active'
+                                                    :'text-sm font-bold pt-6' 
+                                                    }`,
+                                                inputName.input === "Schedule the date" && `${isLink
+                                                    ? 'bg-black text-black opacity-0 active'
+                                                    :'text-sm font-bold pt-6' 
+                                                    }`,
+
+
+                                                    )} htmlFor="">{inputName.text}</label>
+
+
+                                                <label className={twMerge("lg:pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white",
+                                                inputName.text === "Full Name" && ` ${ !selectedMeetngDate
+                                                    ? 'bg-black text-black opacity-0'
+                                                    : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                                    }`,
+                                                inputName.text === "Phone Number" && ` ${ isfullname 
+                                                    ? 'bg-black text-black opacity-0'
+                                                    : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                                    }`,
+                                                inputName.text === "Age" && ` ${ isPhoneNumber 
+                                                    ? 'bg-black text-black opacity-0 active'
+                                                    : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                                    }`,
+                                                inputName.text === "Email" && ` ${ isAge 
+                                                    ? 'bg-black text-black opacity-0 active'
+                                                    : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                                    }`,
+                                                inputName.text2 === "Musician Level" && ` ${ isEmail 
+                                                    ? 'bg-black text-black opacity-0 active'
+                                                    : 'pt-2 w-76 lg:w-103 2xl:w-130 border-b border-black'
+                                                    }`,
+                                                inputName.text2 === "makemusic" && `${ !isCheckboxSelected
+                                                    ? 'bg-black text-black opacity-0 active'
+                                                    :'pt-2 w-80 lg:w-100 2xl:w-125 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
+                                                    }`,
+                                                inputName.text2 === "songrealease" && `${ !isMusicWannacreated
+                                                    ? 'bg-black text-black opacity-0 active'
+                                                    :'pt-2 w-76 lg:w-103 2xl:w-130 border-b border-black' 
+                                                    }`,
+                                                inputName.text2 === "sharedlink" && `${ !isCheckboxSelectedYes
+                                                    ? 'bg-black text-black opacity-0 active'
+                                                    :'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
+                                                    }`,
+                                                
+                                                    )} htmlFor="">{inputName.input}</label>
+                                            </div>
+                                        ))}
+                                    </div>  
+                                
+                                    
+                                </div> 
+                                <div className="grid text-white ml-1 md:ml-1 mt-6">
+                                        <label className={`pt-2 text-sm font-bold mb-2 
+                                            ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
+                                                ? 'bg-black text-black opacity-0 active'
+                                                : 'pt-2 ml-5 md:ml-0 text-sm font-bold mb-2'
+                                            }`}>
+                                        Message: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
+                                        </label>
+                                        <textarea
+                                        className={`bg-transparent w-70 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white 
+                                            ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
+                                                ? "bg-black text-black opacity-0 active"
+                                                : "bg-transparent w-70 ml-5 md:ml-0 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
+                                            }
+                                            `}
+                                        id="message"
+                                        value={form.message}
+                                        onChange={e => setForm({...form, message: e.target.value})}
+                                        ></textarea>
+                                        <span className="text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-65 lg:ml-98 2xl:ml-120">
+                                        →
+                                        </span> 
+                                    </div>
+                                <button
+                                    onClick={() => setLoading(true)}
+                                    disabled={isFormIncomplete}
+                                    type="submit"
+                                    onTouch
+                                    className={`w-34 p-2 ml-5 lg:ml-1 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                                        ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
+                                            ? "bg-black text-black opacity-0 active"
+                                            : "w-34 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
+                                        }
+                                        ${pressed
+                                            ? 'focus:bg-purple-600 active:bg-purple-600'
+                                            : "bg-white active:text-white"
+                                        }
+                                        ${isFormIncomplete || !isCheckboxSelectedYes && !isCheckboxSelectedNo
+                                            ? 'cursor-not-allowed bg-neutral-500 focus:opacity-50 active:bg-neutral-500'
+                                            : 'bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white focus:bg-purple-600 active:bg-purple-600 cursor-pointer'
+                                        }
+                                    `}
+                                    >
+                                    {
+                                        loading ? (
+                                            <ClipLoader color='purple'
+                                                loading={loading}
+                                                size={30}
+                                                aria-level="Loading Spinner"
+                                                data-testid="loader"/> 
+                                        ) : (
+                                            "SUBMIT →"
+                                        )
+                                    }
+                                </button>
+                            
+                            </form>   
+                        </ModalFormServices> */}
                 <form onSubmit={handleSubmit}>
-                    <div className="font-mono text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 2xl:px-10 text-white">
-                        <h3
-                        class="text-3xl sm:text-4xl mb-20 md:mb-5 ml-8 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
-                        >
-                        Let's get in touch!
-                        </h3>
-                        <p
-                        class="w-80 ml-5 md:mb-7 -mb-15 lg:-mb-6 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm 2xl:w-lg lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
-                        >
-                        Complete this form below to be able to know you better and contacting you as soon as possible.
-                        </p>
+                    <div>
                         <div className='ml-6 md:ml-1'>
                             {formInformation.map((inputName, index) => (
                                 <div className="ml-1 md:ml-0 grid" key={index}>
                                     <label className={twMerge("text-sm font-bold md:pt-8 lg:pt-6 2xl:pt-8", 
+                                    inputName.text === "Full Name" && `${ !selectedMeetngDate
+                                        ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                        : 'text-sm font-bold pt-6'   
+                                        }`,
                                     inputName.text === "Phone Number" && `${ isfullname
                                         ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
                                         : 'text-sm font-bold pt-6'   
@@ -466,6 +690,10 @@ export default function ServicesForm() {
 
 
                                     <label className={twMerge("lg:pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white",
+                                    inputName.text === "Full Name" && ` ${ !selectedMeetngDate
+                                        ? 'bg-black text-black opacity-0'
+                                        : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                        }`,
                                     inputName.text === "Phone Number" && ` ${ isfullname 
                                         ? 'bg-black text-black opacity-0'
                                         : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
@@ -484,7 +712,7 @@ export default function ServicesForm() {
                                         }`,
                                     inputName.text2 === "makemusic" && `${ !isCheckboxSelected
                                         ? 'bg-black text-black opacity-0 active'
-                                        :'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
+                                        :'pt-2 w-20 lg:w-100 2xl:w-125 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white' 
                                         }`,
                                     inputName.text2 === "songrealease" && `${ !isMusicWannacreated
                                         ? 'bg-black text-black opacity-0 active'
@@ -499,61 +727,10 @@ export default function ServicesForm() {
                                 </div>
                             ))}
                         </div>  
-                        <div className='flex gap-3'>
-                            <button onClick={() => setismodalOpen(true)} className={`w-44 p-3 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
-                                ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
-                                    ? "bg-black text-black opacity-0 active"
-                                    : "w-24 ml-5 md:ml-0 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
-                                }
-                                `}>Schedule Meeting Date
-                            </button>
-                            <span className={`pt-4
-                                ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
-                                    ? "hidden"
-                                    : "pt-3"
-                                }
-                                `}>
-                                <Calendar/>
-                            </span>
-                        </div>
-                            
-                        <ModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
-                            <DayPicker
-                                animate
-                                mode='single'
-                                classNames={{
-                                    today: `border-amber-500 text-white`, // Add a border to today's date
-                                    selected: `bg-purple-500 border-amber-500 text-white`, // Highlight the selected day
-                                    root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
-                                    chevron: `${defaultClassNames.chevron} fill-amber-500`,
-                                    // chevron: `${defaultClassNames.chevron} fill-amber-100`
-                                }}
-                                selected={selected}
-                                onSelect={setSelected}
-                                defaultMonth={new  Date()}
-                                modifers={modifers}
-                                onDayClick={(day, modifers) => {
-                                    if (modifers.selected) {
-                                        setSelectedDate(undefined);
-                                    } else {
-                                        setSelectedDate(day)
-                                        setSelectedMeetingDate(day.toDateString())
-                                    }
-                                }}
-                                footer={
-                                    selectedDate ? `You selected: ${selectedDate?.toDateString()}` : "Pick a day."
-                                }
-                            />
-                            {/* <div className='w-76'>
-                            </div> */}
-                        </ModalCalendar>
-                        <div>
-                            <span className={`text-neutral-400 ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
-                                ? "bg-black text-black opacity-0 active"
-                                : "text-neutral-400 ml-5 md:ml-0 "
-                            }`}>Selected Date: {selectedDate?.toDateString()}</span>
-                        </div>
-                        <div className="grid ml-1 md:ml-0">
+                      
+                        
+                    </div> 
+                    <div className="grid text-white ml-1 md:ml-1 mt-6">
                             <label className={`pt-2 text-sm font-bold mb-2 
                                 ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                     ? 'bg-black text-black opacity-0 active'
@@ -572,17 +749,21 @@ export default function ServicesForm() {
                             value={form.message}
                             onChange={e => setForm({...form, message: e.target.value})}
                             ></textarea>
-                            <span className="text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-65 lg:ml-98 2xl:ml-120">
+                            <span className={`text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-65 lg:ml-98 2xl:ml-120 
+                                ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
+                                    ? "hidden"
+                                    : "text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-65 lg:ml-98 2xl:ml-120"
+                                }
+                                `}>
                             →
                             </span> 
                         </div>
-                    </div>
                     <button
                         onClick={() => setLoading(true)}
                         disabled={isFormIncomplete}
                         type="submit"
                         onTouch
-                        className={`w-34 p-2 ml-5 lg:ml-8 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                        className={`w-34 p-2 ml-5 lg:ml-1 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
                             ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                 ? "bg-black text-black opacity-0 active"
                                 : "w-34 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
@@ -609,10 +790,24 @@ export default function ServicesForm() {
                             )
                         }
                     </button>
-                </form>
-            </div>
-          {/* Contact Information */}
 
+                     <Modal open={modalOpen2} onClose={() => setismodalOpen2(false)}>
+                        <div className='text-center w-86'>
+                            <p className='font-black text-white'>Thank you so much for reaching out, I'll be contacting you in the next couple of days!</p>
+                        </div>
+                    </Modal>
+                   
+                </form>   
+            </div>
+                
+
+                
+                            
+                        </div>
+                       
+                       
+                {/* <div className="font-mono ml-10 text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 2xl:px-10 text-white">
+            </div> */}
         </section>
     )
 }
