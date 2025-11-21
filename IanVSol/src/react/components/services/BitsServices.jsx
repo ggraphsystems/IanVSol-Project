@@ -4,8 +4,8 @@ import { Day, DayPicker, getDefaultClassNames } from "react-day-picker"
 import "react-day-picker/style.css"
 import ModalCalendar from '../ModalCalendar';
 import { ClipLoader } from "react-spinners";
-import  {musicCreationTypes}  from "../lib/GendresList"
-import { customStyles } from "../lib/styles/SelectStyles"
+import  {musicCreationTypes}  from "../musicData/GendresList"
+import { customStyles } from "../musicData/styles/SelectStyles"
 import  Select  from "react-select"
 import  makeAnimated from "react-select/animated"
 import {Calendar}  from 'feather-icons-react'

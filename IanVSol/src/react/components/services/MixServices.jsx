@@ -4,8 +4,8 @@ import { Day, DayPicker, getDefaultClassNames } from "react-day-picker"
 import "react-day-picker/style.css"
 import ModalCalendar from '../ModalCalendar';
 import { ClipLoader } from "react-spinners";
-import  {musicCreationTypes}  from "../lib/GendresList"
-import { customStyles } from "../lib/styles/SelectStyles"
+import  {musicCreationTypes}  from "../musicData/GendresList"
+import { customStyles } from "../musicData/styles/SelectStyles"
 import  Select  from "react-select"
 import  makeAnimated from "react-select/animated"
 import {Calendar}  from 'feather-icons-react'
@@ -42,6 +42,7 @@ export default function ServicesForm() {
         const [selected, setSelected] = useState(new Date());
         console.log(selected)
         const [selectedDate, setSelectedDate] = useState(undefined)
+         const [selectedMeetngDate, setSelectedMeetingDate] = useState(undefined)
 
         const modifers = {selected: selectedDate};
         if (selectedDate) {
@@ -91,62 +92,82 @@ export default function ServicesForm() {
 
         const handleSubmit = async e => {
             e.preventDefault()
-            console.log(
-                form.fullname, 
-                form.phoneNumber, 
-                form.age,
-                form.email,
-                form.basicLevel,
-                form.intermidiateLevel,
-                form.advanceLevel,
-                form.professionalLavel,
-                form.musicGender,
-                form.musicCreation,
-                form.musicRealease,
-                form.link,
-                form.dateScheduled,
-                form.message)
-            // setLoading(true)
-            // try {
-            //     const response = await fetch("https://adg4x2g63h.execute-api.us-east-2.amazonaws.com/prod/send-email", {
-            //         method: 'POST',
-            //         headers: {
-            //             'Content-Type':'application/json',
-            //         },
-            //         body: JSON.stringify({
-            //             name:form.fullname,
-            //             subject:form.email,
-            //             phone:form.phoneNumber,
-            //             instagram:instagram,
-            //             message:form.messageaz
-            //         }),
-            //     });
+            // console.log(
+            //     form.fullname, 
+            //     form.phoneNumber, 
+            //     form.age,
+            //     form.email,
+            //     form.basicLevel,
+            //     form.intermidiateLevel,
+            //     form.advanceLevel,
+            //     form.professionalLavel,
+            //     gendreSelectedList,
+            //     form.musicCreation,
+            //     form.musicRealease,
+            //     form.link,
+            //     selectedDate,
+            //     form.message)
+            setLoading(true)
+            try {
+                const response = await fetch("https://2q4cq8ihw3.execute-api.us-east-2.amazonaws.com/prod-services/send-email-service", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json',
+                    },
+                    body: JSON.stringify({
+                        service:"Production",
+                        fullname:form.fullname,
+                        phoneNumber:form.phoneNumber,
+                        age:form.age,
+                        subject_email:form.email,
+                        music_user_created:optionSelected.join(", "),
+                        music_level:musicLevelSelected,
+                        realese_song_yes_no:form2.musicRealeaseYes || form2.musicRealeaseNo,
+                        shared_link:form.link,
+                        meeting_date:selectedMeetngDate,
+                        message:form.message
+                    }),
+                });
     
-            //     if (!response.ok) {
-            //         throw new Error(`HTTP error! status: ${response.status}`);
-            //     }
-            //     window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
                 
-            //     setLoading(false)
-            //     setismodalOpen(true)
-            //     const result = await response.json();
-            //     console.log(result)
+                setLoading(false)
+                setismodalOpen2(true)
+                const result = await response.json();
+                console.log(result)
     
                 
-            //   } catch (error) {
-            //     console.log(error)
-            //     setLoading(false)
-            //   } 
-            //   setTimeout(() => {
-            //     setForm(
-            //         {
-            //             fullname:"",
-            //             phoneNumber: "",
-            //             email: "",
-            //             message: ""}
-            //         )
-            //     setInstagram("")
-            //   }, 800)
+              } catch (error) {
+                console.log(error)
+                setLoading(false)
+              } 
+              setTimeout(() => {
+                setForm(
+                    {
+                        fullname:"",
+                        phoneNumber: "",
+                        age:"",
+                        email: "",
+                        basicLevel:false,
+                        intermidiateLevel:false,
+                        advanceLevel:false,
+                        professionalLavel:false,
+                        musicGender:"",
+                        musicCreation:"",
+                        link:"",
+                        message: ""
+                    }
+                ),
+                setForm2({
+                    musicRealeaseYes:false,
+                    musicRealeaseNo:false,
+                })
+                setisSelectedOption([])
+                setmusicLevelSelected("")
+              }, 800)
             // finally{
             //     console.log("Operation finish")
             //   }
@@ -290,13 +311,14 @@ export default function ServicesForm() {
                         closeMenuOnSelect={false}
                         onChange={(selectedOption) => {
                             console.log(selectedOption)
-                            setisSelectedOption(selectedOption || [])
-                            console.log("This is from the useState: ", optionSelected)
-                            gendreSelectedList.push(selectedOption)
-                            console.log("This is the list: ", gendreSelectedList)
-                            gendreSelectedList.forEach(item => {
-                                console.log("For each of the list: ", item)
-                            })
+                            // setisSelectedOption(selectedOption)
+                            // console.log("This is from the useState: ", optionSelected)
+                            // gendreSelectedList.forEach(item => {
+                            //     console.log("For each of the list: ", item)
+                            // })
+                            const values = selectedOption.map(item => item.value);
+                            setisSelectedOption(values)
+                            console.log(optionSelected)
                             
                         }}
                         options={musicCreationTypes}
@@ -405,22 +427,73 @@ export default function ServicesForm() {
                     </p>
                 </div>
             </div>
+            <div className="font-mono text-sm space-y-6 pt-6 sm:px-2 md:px-3 lg:px-0 2xl:px-10 text-white">
+                <h3
+                    class="text-3xl w-80 sm:text-4xl mb-20 md:mb-5 ml-8 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
+                    >
+                    Let's get in touch!
+                </h3>
+                <p
+                class="w-80 ml-7 -mb-12 md:mb-3 lg:-mb-8 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm 2xl:w-lg lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
+                >
+                Complete this form below to be able to know you better and contacting you as soon as possible.
+                </p>
+                <div className='flex pt-3 ml-5 md:ml-0 gap-3'>
+                    <button onClick={() => setismodalOpen(true)} className={`w-44 p-2 text-black bg-white hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
+          active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600
+                    `}>Schedule Meeting Date</button>
+                    <span className={`pt-3
+                        `}>
+                        <Calendar/>
+                    </span>
+
+                </div>
+                    
+                <ModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
+                    <DayPicker
+                        animate
+                        mode='single'
+                        classNames={{
+                            today: `border-amber-500 text-white`, // Add a border to today's date
+                            selected: `bg-purple-500 border-amber-500 text-white`, // Highlight the selected day
+                            root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
+                            chevron: `${defaultClassNames.chevron} fill-amber-500`,
+                            // chevron: `${defaultClassNames.chevron} fill-amber-100`
+                        }}
+                        selected={selected}
+                        onSelect={setSelected}
+                        defaultMonth={new  Date()}
+                        modifers={modifers}
+                        onDayClick={(day, modifers) => {
+                            if (modifers.selected) {
+                                setSelectedDate(undefined);
+                            } else {
+                                setSelectedDate(day)
+                            }
+                        }}
+                        footer={
+                            selectedDate ? `You selected: ${selectedDate?.toDateString()}` : "Pick a day."
+                        }
+                    />
+                    {/* <div className='w-76'>
+                    </div> */}
+                </ModalCalendar>
+                <div>
+                    <span className={`text-neutral-400`}>Selected Date: {selectedDate?.toDateString()}</span>
+                </div>
+                
+            </div>
+            </div>
                 <form onSubmit={handleSubmit}>
-                    <div className="font-mono text-sm space-y-6 pt-6 sm:px-2 md:px-3 lg:px-0 2xl:px-10 text-white">
-                        <h3
-                        class="text-3xl w-80 sm:text-4xl mb-20 md:mb-5 ml-8 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
-                        >
-                        Let's get in touch!
-                        </h3>
-                        <p
-                        class="w-80 ml-7 -mb-12 md:mb-3 lg:-mb-8 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm 2xl:w-lg lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
-                        >
-                        Complete this form below to be able to know you better and contacting you as soon as possible.
-                        </p>
-                        <div className='ml-8 md:ml-1'>
+                    <div>
+                        <div className='ml-6 md:ml-1'>
                             {formInformation.map((inputName, index) => (
                                 <div className="ml-1 md:ml-0 grid" key={index}>
-                                    <label className={twMerge("text-sm md:pt-8 font-bold pt-4 lg:pt-6 2xl:pt-8", 
+                                    <label className={twMerge("text-sm md:pt-8 font-bold pt-4 lg:pt-6 2xl:pt-8",
+                                    inputName.text === "Full Name" && `${ !selectedMeetngDate
+                                        ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
+                                        : 'text-sm font-bold pt-6'   
+                                        }`, 
                                     inputName.text === "Phone Number" && `${ isfullname
                                         ? 'bg-black text-black opacity-1 focus:opacity-50 active:bg-neutral-500'
                                         : 'text-sm font-bold pt-6'   
@@ -459,6 +532,10 @@ export default function ServicesForm() {
 
 
                                     <label className={twMerge("pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white",
+                                    inputName.text === "Full Name" && ` ${ !selectedMeetngDate
+                                        ? 'bg-black text-black opacity-0'
+                                        : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
+                                        }`,
                                     inputName.text === "Phone Number" && ` ${ isfullname 
                                         ? 'bg-black text-black opacity-0'
                                         : 'pt-2 w-76 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white'
@@ -492,82 +569,29 @@ export default function ServicesForm() {
                                 </div>
                             ))}
                         </div>  
-                        <div className='flex gap-3'>
-                            <button onClick={() => setismodalOpen(true)} className={`w-44 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                    </div>
+                    <div className="grid ml-1 md:ml-0">
+                        <label className={`pt-2 text-sm font-bold mb-2 
+                            ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
+                                ? 'bg-black text-black opacity-0 active'
+                                : 'pt-2 ml-5 md:ml-0 text-sm font-bold mb-2'
+                            }`}>
+                        Message: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
+                        </label>
+                        <textarea
+                        className={`bg-transparent w-70 ml-5 md:ml-0 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white 
                             ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                 ? "bg-black text-black opacity-0 active"
-                                : "w-24 ml-5 md:ml-0 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
+                                : "bg-transparent w-70 ml-5 md:ml-0 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
                             }
-                            `}>Schedule Meeting Date</button>
-                            <span className={`pt-3
-                                ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
-                                    ? "hidden"
-                                    : "pt-2"
-                                }
-                                `}>
-                                <Calendar/>
-                            </span>
-
-                        </div>
-                            
-                        <ModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
-                            <DayPicker
-                                animate
-                                mode='single'
-                                classNames={{
-                                    today: `border-amber-500 text-white`, // Add a border to today's date
-                                    selected: `bg-purple-500 border-amber-500 text-white`, // Highlight the selected day
-                                    root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
-                                    chevron: `${defaultClassNames.chevron} fill-amber-500`,
-                                    // chevron: `${defaultClassNames.chevron} fill-amber-100`
-                                }}
-                                selected={selected}
-                                onSelect={setSelected}
-                                defaultMonth={new  Date()}
-                                modifers={modifers}
-                                onDayClick={(day, modifers) => {
-                                    if (modifers.selected) {
-                                        setSelectedDate(undefined);
-                                    } else {
-                                        setSelectedDate(day)
-                                    }
-                                }}
-                                footer={
-                                    selectedDate ? `You selected: ${selectedDate?.toDateString()}` : "Pick a day."
-                                }
-                            />
-                            {/* <div className='w-76'>
-                            </div> */}
-                        </ModalCalendar>
-                        <div>
-                            <span className={`text-neutral-400 ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
-                                ? "bg-black text-black opacity-0 active"
-                                : "text-neutral-400 ml-6 md:ml-0"
-                            }`}>Selected Date: {selectedDate?.toDateString()}</span>
-                        </div>
-                        <div className="grid ml-1 md:ml-0">
-                            <label className={`pt-2 text-sm font-bold mb-2 
-                                ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
-                                    ? 'bg-black text-black opacity-0 active'
-                                    : 'pt-2 ml-5 md:ml-0 text-sm font-bold mb-2'
-                                }`}>
-                            Message: <span className="text-neutral-600 hover:text-neutral-400">(required)</span>
-                            </label>
-                            <textarea
-                            className={`bg-transparent w-70 ml-5 md:ml-0 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white 
-                                ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
-                                    ? "bg-black text-black opacity-0 active"
-                                    : "bg-transparent w-70 ml-5 md:ml-0 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
-                                }
-                                `}
-                            id="message"
-                            value={form.message}
-                            onChange={e => setForm({...form, message: e.target.value})}
-                            ></textarea>
-                            <span className="text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-65 lg:ml-98 2xl:ml-120">
-                            →
-                            </span> 
-                        </div>
+                            `}
+                        id="message"
+                        value={form.message}
+                        onChange={e => setForm({...form, message: e.target.value})}
+                        ></textarea>
+                        <span className="text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-65 lg:ml-98 2xl:ml-120">
+                        →
+                        </span> 
                     </div>
                     <button
                         onClick={() => setLoading(true)}
@@ -602,7 +626,6 @@ export default function ServicesForm() {
                         }
                     </button>
                 </form>
-            </div>
           {/* Contact Information */}
 
         </section>

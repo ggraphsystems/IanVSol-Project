@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import ServicesForm from "../../react/components/services/ProductionServices";
+import ServiceTestForm from "../../react/components/services/ServiceTest";
 import Footer from "../Footer.astro";
 ---
 
@@ -17,10 +17,10 @@ import Footer from "../Footer.astro";
         <a href="/second-pages/ServicesPage/">/Services</a>
       </li>
       <li class="text-white">
-        <a href="">/Production</a>
+        <a href="">/Test</a>
       </li>
     </ul>
   </nav>
-  <ServicesForm client:only="react" />
+  <ServiceTestForm client:only="react" />
   <Footer />
 </BaseLayout>

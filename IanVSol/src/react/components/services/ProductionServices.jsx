@@ -5,8 +5,8 @@ import "react-day-picker/style.css"
 import Modal from '../ModalEmail';
 import ModalCalendar from '../ModalCalendar';
 import { ClipLoader } from "react-spinners";
-import  {musicCreationTypes}  from "../lib/GendresList"
-import { customStyles } from "../lib/styles/SelectStyles"
+import  {musicCreationTypes}  from "../musicData/GendresList"
+import { customStyles } from "../musicData/styles/SelectStyles"
 import  Select  from "react-select"
 import  makeAnimated from "react-select/animated"
 import {Calendar}  from 'feather-icons-react'
@@ -94,21 +94,6 @@ export default function ServicesForm() {
 
         const handleSubmit = async e => {
             e.preventDefault()
-            // console.log(
-            //     form.fullname, 
-            //     form.phoneNumber, 
-            //     form.age,
-            //     form.email,
-            //     form.basicLevel,
-            //     form.intermidiateLevel,
-            //     form.advanceLevel,
-            //     form.professionalLavel,
-            //     gendreSelectedList,
-            //     form.musicCreation,
-            //     form.musicRealease,
-            //     form.link,
-            //     selectedDate,
-            //     form.message)
             setLoading(true)
             try {
                 const response = await fetch("https://2q4cq8ihw3.execute-api.us-east-2.amazonaws.com/prod-services/send-email-service", {
@@ -314,11 +299,6 @@ export default function ServicesForm() {
                             closeMenuOnSelect={false}
                             onChange={(selectedOption) => {
                                 console.log(selectedOption)
-                                // setisSelectedOption(selectedOption)
-                                // console.log("This is from the useState: ", optionSelected)
-                                // gendreSelectedList.forEach(item => {
-                                //     console.log("For each of the list: ", item)
-                                // })
                                 const values = selectedOption.map(item => item.value);
                                 setisSelectedOption(values)
                                 console.log(optionSelected)
@@ -479,6 +459,7 @@ export default function ServicesForm() {
                                 } else {
                                     setSelectedDate(day)
                                     setSelectedMeetingDate(day.toDateString())
+                                    setismodalOpen(false)
                                 }
                             }}
                             footer={
