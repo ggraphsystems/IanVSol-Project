@@ -6,7 +6,7 @@ import {Calendar}  from 'feather-icons-react'
 
 
 
-export default function CalendarDatePicker({selectedDate, setSelectedDate}) {
+export default function CalendarDatePicker({selectedDate, setSelectedDate, setSelectedMeetingDate}) {
     const [modalOpen, setismodalOpen] = useState(false)
     const defaultClassNames = getDefaultClassNames();
     const modifers = {selected: selectedDate};
@@ -17,7 +17,7 @@ export default function CalendarDatePicker({selectedDate, setSelectedDate}) {
     return (
         <section>
             <div className='flex pt-3 ml-5 md:ml-0 gap-3 text-white'>
-                <button onTouch onClick={() => setismodalOpen(true)} className={`w-44 p-2 text-black bg-white hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
+                <button type="button" onClick={() => setismodalOpen(true)} className={`w-44 p-2 text-black bg-white hover:scale-105 hover:bg-purple-500 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
                 active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600`}>
                     Schedule Meeting Date    
                 </button>
@@ -40,14 +40,12 @@ export default function CalendarDatePicker({selectedDate, setSelectedDate}) {
                 onSelect={setSelectedDate}
                 defaultMonth={new  Date()}
                 modifers={modifers}
-                onDayClick={(day, modifers) => {
-                    if (modifers.selected) {
-                        setSelectedDate(undefined);
-                    } else {
+                onDayClick={(day) => {
+                    if (day) {
                         setSelectedDate(day)
                         setSelectedMeetingDate(day.toDateString())
                         setismodalOpen(false);
-                    }
+                    } 
                 }}
                 footer={
                     selectedDate ? `You selected: ${selectedDate?.toDateString()}` : "Pick a day."

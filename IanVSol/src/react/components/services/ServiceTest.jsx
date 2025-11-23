@@ -3,6 +3,7 @@ import ServiceForm from "../../pages/ServiceFormPage";
 export default function ServiceTestForm() {
     return (
         <ServiceForm
+            service="Test Service"
             title="Test Service"
             image="/musician.jpg"
             description="With over a decade of experience in the music industry, I've had the

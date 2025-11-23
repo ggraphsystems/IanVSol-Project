@@ -4,8 +4,9 @@ import MusicListSelected from "../components/forms/MusicListSelected";
 import { scheduleMeeting } from "../components/services/Api";
 import CalendarDatePicker from "../components/forms/CalendarDayPicker";
 import { useState } from "react";
+import { ClipLoader } from "react-spinners";
 
-export default function ServiceForm({title, image, description}) {
+export default function ServiceForm({title, image, description, service}) {
     
     // The user needs to fill this form to get the meeting of the service
     const [form, setForm] = useState({
@@ -32,42 +33,45 @@ export default function ServiceForm({title, image, description}) {
         musicRealeaseNo:false,
     })
 
-    // The date that the user have been selected
-    const [selected, setSelected] = useState(new Date())
 
     // The list of gendres that the user wants to create
     const [optionSelected, setisSelectedOption] = useState([])
 
     // The level of the music of the user
     const [musicLevelSelected, setmusicLevelSelected] = useState("")
+   
+    // The level of the music of the user
+    const [musicRealeaseYesNo, setmusicRealeaseYesNo] = useState("")
 
     // The meeting date that the user have choice to get the meeting with Ian
     const [selectedMeetngDate, setSelectedMeetingDate] = useState(undefined)
 
 
     // dynamic form 
-    const isfullname = form.fullname.trim().length < 5;
-    const isPhoneNumber = form.phoneNumber.trim().length < 6;
-    const isAge = form.age.trim().length < 2;
-    const isEmail = form.email.trim().length < 6;
+    const isfullname = (form.fullname ?? "").trim().length < 5;
+    const isPhoneNumber = (form.phoneNumber ?? "").trim().length < 6;
+    const isAge = (form.age ?? "").trim().length < 2;
+    const isEmail = (form.email ?? "").trim().length < 6;
     const isAnylevelSelected = Object.values(form).includes(true)
     const isCheckboxSelected = form.basicLevel || form.intermidiateLevel || form.advanceLevel || form.professionalLavel
     const isMusicWannacreated = optionSelected.length > 0;
     const isMusicRealeased = Object.values(form2).includes(true)
     const isCheckboxSelectedYes = form2.musicRealeaseYes
     const isCheckboxSelectedNo = form2.musicRealeaseNo
-    const isLink = form.link.trim().length < 10
-    const isFormIncomplete = form.message.trim().length < 1;
+    const isLink = (form.link ?? "").trim().length < 10
+    const isFormIncomplete = (form.message ?? "").trim().length < 1;
 
     
     const handleCheck = (e) => {
-        // const isChecked = e.target.checked;
-        // setForm(form.basicLeve)
-        // setisCheckBoxValue(isChecked ? console.log(e.target.value) : console.log(""))
         const {name, checked} = e.target;
-        setForm((prevForm) => ({
+    
+        setForm(prevForm => ({
             ...prevForm,
-            [name]:checked,
+            basicLevel: false,
+            intermidiateLevel: false,
+            advanceLevel: false,
+            professionalLavel: false,
+            [name]: checked ? true : false,
         }));
         console.log(name)
         setmusicLevelSelected(name)
@@ -75,11 +79,14 @@ export default function ServiceForm({title, image, description}) {
 
     const handleCheckYesNo = (e) => {
         const {name, checked} = e.target;
-            setForm2((prevForm) => ({
+            setForm2(prevForm => ({
                 ...prevForm,
-                [name]:checked,
+                musicRealeaseYes:false,
+                musicRealeaseNo:false,
+                [name]:checked ? true : false,
             }));
         console.log(name)
+        setmusicRealeaseYesNo(name)
     }
     
 
@@ -88,16 +95,16 @@ export default function ServiceForm({title, image, description}) {
         e.preventDefault()
         // api here
         const formData = {
-            service:"Production",
+            service:service,
             fullname:form.fullname,
             phoneNumber:form.phoneNumber,
             age:form.age,
             subject_email:form.email,
             music_user_created:optionSelected.join(", "),
             music_level:musicLevelSelected,
-            realese_song_yes_no:form2.musicRealeaseYes || form2.musicRealeaseNo,
+            realese_song_yes_no:musicRealeaseYesNo,
             shared_link:form.link,
-            meeting_date:selectedMeetngDate,
+            meeting_date:selectedMeetngDate.toDateString(),
             message:form.message
         }
 
@@ -151,30 +158,36 @@ export default function ServiceForm({title, image, description}) {
                     />
                     <form onSubmit={handleSubmit}>
                         <div className='ml-6 md:ml-1'>
-                            <div className="ml-1 md:ml-0 grid">
+                            <div className="ml-1 md:ml-0">
                             <TextInput
                                 label="Full Name"
                                 name="fullname"
                                 value={form.fullname}
                                 onChange={(e) => setForm({...form, fullname: e.target.value})}
+                                isInvalid={!selectedMeetngDate}
                             />
                             <TextInput
                                 label="Phone Number"
                                 name="phoneNumber"
+                                type="number"
                                 value={form.phoneNumber}
                                 onChange={(e) => setForm({...form, phoneNumber: e.target.value})}
+                                isInvalid={isfullname}
                             />
                             <TextInput
                                 label="Age"
                                 name="age"
+                                type="number"
                                 value={form.age}
                                 onChange={(e) => setForm({...form, age: e.target.value})}
+                                isInvalid={isPhoneNumber}
                             />
                             <TextInput
                                 label="Email"
                                 name="email"
                                 value={form.email}
                                 onChange={(e) => setForm({...form, email: e.target.value})}
+                                isInvalid={isAge}
                             />
                             <MusicLvlCheckBox
                                 title="Which you consider that is you musician level?"
@@ -182,15 +195,27 @@ export default function ServiceForm({title, image, description}) {
                                     { name: "basicLevel", label: "Basic" },
                                     { name: "intermidiateLevel", label: "Intermediate" },
                                     { name: "advanceLevel", label: "Advanced" },
-                                    { name: "professionalLevel", label: "Professional" },
+                                    { name: "professionalLavel", label: "Professional" },
                                 ]}
                                 state={form}
                                 onChange={handleCheck}
+                                isInvalid={isEmail}
+                                anyChecked={isCheckboxSelected}
                             />
-                            <label className="text-sm font-bold md:pt-10 lg:pt-6 2xl:pt-8">Which type of music do you wanna make?</label>
+                            <div className="pt-6 md:pt-6">
+                                <label className={`text-sm font-bold md:pt-10 lg:pt-10 2xl:pt-8 
+                                    ${!isCheckboxSelected
+                                        ? "hidden"
+                                        : "text-sm font-bold"
+                                    }
+                                    `}>Which type of music do you wanna make?
+                                </label>
+
+                            </div>
                             <MusicListSelected
                                 optionSelected={optionSelected}
                                 setisSelectedOption={setisSelectedOption}
+                                isInvalid={!isCheckboxSelected}
                             />
                             <div className="ml-1 grid">
                                 <MusicLvlCheckBox
@@ -201,10 +226,11 @@ export default function ServiceForm({title, image, description}) {
                                     ]}
                                     state={form2}
                                     onChange={handleCheckYesNo}
+                                    isInvalid={!isMusicWannacreated}
                                 />
                                 <div className='pt-4'>
                                 <label className={`${!isCheckboxSelectedYes
-                                            ? 'bg-black text-black opacity-0 active'
+                                            ? 'hidden'
                                             :'text-sm font-bold' 
                                 }`} disabled={isMusicRealeased && !form2.musicRealeaseYes} htmlFor="">Share link 
                                 <span className={`ml-2 text-neutral-600`}>(optional)</span></label>
@@ -219,7 +245,7 @@ export default function ServiceForm({title, image, description}) {
                                 `} disabled={form2.musicRealeaseNo} type="text" />
                             </div>
                             </div>
-                            <div className="grid text-white ml-1 md:ml-1 mt-6">
+                            <div className="grid text-white -ml-4 sm:-ml-4 md:ml-1 mt-6">
                                 <label className={`pt-2 text-sm font-bold mb-2 
                                     ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                         ? 'bg-black text-black opacity-0 active'
@@ -231,28 +257,19 @@ export default function ServiceForm({title, image, description}) {
                                 className={`bg-transparent w-70 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white 
                                     ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                         ? "bg-black text-black opacity-0 active"
-                                        : "bg-transparent w-70 ml-5 md:ml-0 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
+                                        : "bg-transparent w-70 ml-5 mb-5 md:ml-0 lg:w-105 2xl:w-126 px-1 h-20 border border-neutral-700 focus:outline-none focus:border-white"
                                     }
                                     `}
                                 id="message"
                                 value={form.message}
                                 onChange={e => setForm({...form, message: e.target.value})}
                                 ></textarea>
-                                <span className={`text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-65 lg:ml-98 2xl:ml-120 
-                                    ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
-                                        ? "hidden"
-                                        : "text-neutral-600 text-sm ml-69 sm:ml-96 md:ml-65 lg:ml-98 2xl:ml-120"
-                                    }
-                                    `}>
-                                →
-                                </span> 
                             </div>
                             <button
                                 onClick={() => setLoading(true)}
                                 disabled={isFormIncomplete}
                                 type="submit"
-                                onTouch
-                                className={`w-34 p-2 ml-5 lg:ml-1 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                                className={`w-34 p-2 sm:pt-3 ml-1 lg:ml-1 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
                                     ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                         ? "bg-black text-black opacity-0 active"
                                         : "w-34 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"
