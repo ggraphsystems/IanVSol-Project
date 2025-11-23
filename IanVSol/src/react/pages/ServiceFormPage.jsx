@@ -115,7 +115,6 @@ export default function ServiceForm({title, image, description, service}) {
             setLoading(false)
         } catch (error) {
             setLoading(false)
-            alert("There was an error, try again")
         }
     }
     
@@ -269,7 +268,7 @@ export default function ServiceForm({title, image, description, service}) {
                                 onClick={() => setLoading(true)}
                                 disabled={isFormIncomplete}
                                 type="submit"
-                                className={`w-34 p-2 sm:pt-3 ml-1 lg:ml-1 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
+                                className={`w-34 p-2 sm:pt-2 ml-1 lg:ml-1 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
                                     ${!isCheckboxSelectedYes && !isCheckboxSelectedNo
                                         ? "bg-black text-black opacity-0 active"
                                         : "w-34 p-2 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl"

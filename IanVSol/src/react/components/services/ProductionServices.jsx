@@ -3,7 +3,7 @@ import ServiceForm from "../../pages/ServiceFormPage";
 export default function ProductionService() {
     return (
         <ServiceForm
-            service="Production Service"
+            service="Production"
             title="Production"
             image="/musician.jpg"
             description="With over a decade of experience in the music industry, I've had the
