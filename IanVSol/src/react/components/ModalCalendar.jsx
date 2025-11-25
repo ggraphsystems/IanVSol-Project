@@ -14,12 +14,12 @@ export default function ModalCalendar({open, onClose, children}) {
                 className="absolute top-2 right-2 p-1 rounded-lg text-white hover:text-white cursor-pointer">
                     <X/>
                 </button>
+                {children}
                 <button 
                 onClick={onClose}
-                className="absolute top-105 right-2 p-1 rounded-lg text-white hover:text-white cursor-pointer">
+                className="absolute right-2 rounded-lg text-white hover:text-white cursor-pointer">
                     <Check/>
                 </button>
-                {children}
             </div>
         </div>
     )

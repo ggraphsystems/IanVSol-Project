@@ -5,6 +5,6 @@ export const route = [
     },
     {
         title:"About",
-        href:"#"
+        href:"/sections/AboutMePage"
     },
 ]
