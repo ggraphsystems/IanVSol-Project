@@ -50,9 +50,8 @@ export default function ContactForm() {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             window.alert("Thanks for reaching out! I'll be contacting you as soon as possible!")    
-            
             setLoading(false)
-            setismodalOpen(true)
+            
             const result = await response.json();
             console.log(result)
 
@@ -61,6 +60,7 @@ export default function ContactForm() {
             console.log(error)
             setLoading(false)
           } 
+          setismodalOpen(true)
           setTimeout(() => {
             setForm(
                 {
@@ -176,11 +176,6 @@ export default function ContactForm() {
               {/* Submit Button */}
               <div className="grid ml-1 md:ml-0">
               <button
-                    onClick={() => {
-                      setTimeout(() => {
-                        setismodalOpen(true)
-                      }, 1500)
-                    }}
                     disabled={isFormIncomplete}
                     type="submit"
                     onTouch

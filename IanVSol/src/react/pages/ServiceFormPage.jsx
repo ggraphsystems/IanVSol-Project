@@ -5,6 +5,7 @@ import { scheduleMeeting } from "../components/services/Api";
 import CalendarDatePicker from "../components/forms/CalendarDayPicker";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
+import Modal from "../components/ModalEmail";
 
 export default function ServiceForm({title, image, description, service}) {
     
@@ -32,6 +33,9 @@ export default function ServiceForm({title, image, description, service}) {
         musicRealeaseYes:false,
         musicRealeaseNo:false,
     })
+
+    // open it up the modal
+    const [modalOpen2, setismodalOpen2] = useState()
 
 
     // The list of gendres that the user wants to create
@@ -112,10 +116,34 @@ export default function ServiceForm({title, image, description, service}) {
             setLoading(true);
             const result = await scheduleMeeting(formData);
             console.log('Form suubmitted:', result)
-            setLoading(false)
         } catch (error) {
             setLoading(false)
         }
+        setismodalOpen2(true)            
+
+        setForm({
+         fullname:"",
+         phoneNumber: "",
+         age:"",
+         email: "",
+         basicLevel:false,
+         intermidiateLevel:false,
+         advanceLevel:false,
+         professionalLavel:false,
+         musicGender:"",
+         musicCreation:"",
+         link:"",
+         message: ""
+        })
+        setForm2({
+         musicRealeaseYes:false,
+         musicRealeaseNo:false,
+        })
+        setisSelectedOption([])
+        setSelectedMeetingDate(undefined)
+        // setTimeout(() => {
+            
+        //  }, 1000);
     }
     
 
@@ -265,7 +293,6 @@ export default function ServiceForm({title, image, description, service}) {
                                 ></textarea>
                             </div>
                             <button
-                                onClick={() => setLoading(true)}
                                 disabled={isFormIncomplete}
                                 type="submit"
                                 className={`w-34 p-2 sm:pt-2 ml-1 lg:ml-1 md:ml-0 bg-white hover:bg-purple-500 hover:scale-105 transition-transform text-black hover:text-white rounded-2xl
@@ -295,11 +322,11 @@ export default function ServiceForm({title, image, description, service}) {
                                     )
                                 }
                             </button>
-                                {/* <Modal open={modalOpen2} onClose={() => setismodalOpen2(false)}>
+                            <Modal open={modalOpen2} onClose={() => setismodalOpen2(false)}>
                                 <div className='text-center w-86'>
                                     <p className='font-black text-white'>Thank you so much for reaching out, I'll be contacting you in the next couple of days!</p>
                                 </div>
-                            </Modal> */}
+                            </Modal>
                             </div>
                         </div>
                     </form>

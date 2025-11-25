@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@astrojs/react';
 
 import netlify from '@astrojs/netlify';
+// import ViewTransitions  from 'astro:transitions';
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,5 +15,8 @@ export default defineConfig({
   },
 
   integrations: [react()],
-  adapter: netlify()
+  adapter: netlify(),
+  // experimental:{
+  //   ViewTransitions:true
+  // }
 });

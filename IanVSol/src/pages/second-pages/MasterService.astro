@@ -2,10 +2,11 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ServicesForm from "../../react/components/services/MasterServices";
 import Footer from "../Footer.astro";
+import Layout from "../../layouts/Layout.astro";
 ---
 
 <!-- ------- Contact services form ------- -->
-<BaseLayout>
+<Layout>
   <nav
     class="text-white/40 pt-10 ml-10 md:ml-15 md:pt-10 mx-20 max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-2xl lg:max-w-4xl 2xl:max-w-6xl font-light font-serif cursor-pointer"
   >
@@ -23,4 +24,4 @@ import Footer from "../Footer.astro";
   </nav>
   <ServicesForm client:only="react" />
   <Footer />
-</BaseLayout>
+</Layout>
