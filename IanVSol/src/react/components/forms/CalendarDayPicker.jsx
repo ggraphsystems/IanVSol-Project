@@ -7,6 +7,8 @@ import {Calendar}  from 'feather-icons-react'
 
 
 export default function CalendarDatePicker({selectedDate, setSelectedDate, setSelectedMeetingDate}) {
+    const date = "Tue Nov 28 2025"
+    const today = new Date(date);
     const [modalOpen, setismodalOpen] = useState(false)
     const defaultClassNames = getDefaultClassNames();
     const modifers = {selected: selectedDate};
@@ -29,9 +31,11 @@ export default function CalendarDatePicker({selectedDate, setSelectedDate, setSe
             <DayPicker
                 animate
                 mode='single'
+                disabled={today}
                 classNames={{
-                    today: `border-amber-500 text-white`, // Add a border to today's date
-                    selected: `bg-purple-500 border-amber-500 text-white`, // Highlight the selected day
+                    today: `bg-purple-800 text-white rounded-lg`,
+                    todayHighlighted: "border-purple-300 text-white rounded-lg ", // Add a border to today's date
+                    selected: `bg-purple-500 border-amber-500 text-white rounded-lg`, // Highlight the selected day
                     root: `${defaultClassNames.root} shadow-lg p-5`, // Add a shadow to the root element
                     chevron: `${defaultClassNames.chevron} fill-amber-500`,
                     // chevron: `${defaultClassNames.chevron} fill-amber-100`
@@ -39,7 +43,6 @@ export default function CalendarDatePicker({selectedDate, setSelectedDate, setSe
                 selected={selectedDate}
                 onSelect={setSelectedDate}
                 defaultMonth={new  Date()}
-                modifers={modifers}
                 onDayClick={(day) => {
                     if (day) {
                         setSelectedDate(day)
