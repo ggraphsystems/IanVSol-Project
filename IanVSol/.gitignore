@@ -17,7 +17,7 @@ pnpm-debug.log*
 .env
 .env.production
 # supa api
-# dbclient.js
+# dbclient.jss
 
 # macOS-specific files
 .DS_Store
