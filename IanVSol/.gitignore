@@ -16,6 +16,8 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+# supa api
+dbclient.js
 
 # macOS-specific files
 .DS_Store
@@ -25,3 +27,4 @@ pnpm-debug.log*
 
 # Local Netlify folder
 .netlify
+
