@@ -1,14 +1,16 @@
 import ModalCalendar from '../ModalCalendar';
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { Day, DayPicker, getDefaultClassNames } from "react-day-picker"
 import "react-day-picker/style.css"
 import {Calendar}  from 'feather-icons-react'
+import supabase from '../../supabase-client';
 
 
 
-export default function CalendarDatePicker({selectedDate, setSelectedDate, setSelectedMeetingDate}) {
-    const date = "Tue Nov 28 2025"
-    const today = new Date(date);
+export default function CalendarDatePicker({selectedDate, setSelectedDate, setSelectedMeetingDate, buttonTitle}) {
+    const [dateDisabled, setdateDisabled] = useState("")
+    const meetingList = []
+    const disableDate = new Date(dateDisabled);
     const [modalOpen, setismodalOpen] = useState(false)
     const defaultClassNames = getDefaultClassNames();
     const modifers = {selected: selectedDate};
@@ -16,12 +18,35 @@ export default function CalendarDatePicker({selectedDate, setSelectedDate, setSe
         modifers.selected = selectedDate;
     }
 
+    // getting any dates already selected from iandb to put on the calendar
+    useEffect(() => {
+        getMeetingDates();
+    },[])
+
+
+    const getMeetingDates = async () => {
+        const { data, error } = await supabase.from("CalendarDates").select("date");
+        if (error) {
+            console.log("we got an error fetching date from supabase: ", error)
+        } else{
+            console.log("successfully fetch", data)
+        }
+        meetingList.push(data.map(item => item.date))
+        const itemLength = meetingList.map(item => item.length)
+        const num = itemLength[0]
+        const meetingDateRes = meetingList.map(item => item[num - 1])
+        const formatedMeeting = meetingDateRes[0]
+        setdateDisabled(formatedMeeting)
+    }
+    console.log("Saved Date: ", dateDisabled)
+   
+
     return (
         <section>
             <div className='flex pt-3 ml-5 md:ml-0 gap-3 text-white'>
                 <button type="button" onClick={() => setismodalOpen(true)} className={`w-44 p-2 text-black bg-white hover:scale-105 hover:bg-purple-500 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
                 active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600`}>
-                    Schedule Meeting Date    
+                    {buttonTitle}    
                 </button>
                 <span className={`pt-3 text-white`}>
                     <Calendar/>
@@ -31,7 +56,7 @@ export default function CalendarDatePicker({selectedDate, setSelectedDate, setSe
             <DayPicker
                 animate
                 mode='single'
-                disabled={today}
+                disabled={disableDate}
                 classNames={{
                     today: `bg-purple-800 text-white rounded-lg`,
                     todayHighlighted: "border-purple-300 text-white rounded-lg ", // Add a border to today's date

@@ -6,6 +6,7 @@ import CalendarDatePicker from "../components/forms/CalendarDayPicker";
 import { useState } from "react";
 import { ClipLoader } from "react-spinners";
 import Modal from "../components/ModalEmail";
+import supabase from "../supabase-client";
 
 export default function ServiceForm({title, image, description, service}) {
     
@@ -49,6 +50,24 @@ export default function ServiceForm({title, image, description, service}) {
 
     // The meeting date that the user have choice to get the meeting with Ian
     const [selectedMeetngDate, setSelectedMeetingDate] = useState(undefined)
+    
+    // adding the user meeting date to ian db
+    const addMeetingDate_toSupaBase = async () => {
+        const newDate = {
+            date: selectedMeetngDate.toDateString(),
+        }
+        const {data, error} = await supabase
+            .from("CalendarDates")
+            .insert([newDate])
+            .single()
+
+        if (error) {
+            console.log("error: ", error)
+            
+        } else {
+            console.log("The date was successfully save into supabase! ", data)
+        }
+    }
 
 
     // dynamic form 
@@ -98,6 +117,7 @@ export default function ServiceForm({title, image, description, service}) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         // api here
+        addMeetingDate_toSupaBase()
         const formData = {
             service:service,
             fullname:form.fullname,
@@ -182,6 +202,7 @@ export default function ServiceForm({title, image, description, service}) {
                     <CalendarDatePicker
                         selectedDate={selectedMeetngDate}
                         setSelectedDate={setSelectedMeetingDate}
+                        buttonTitle="Schedule Meeting Date"
                     />
                     <form onSubmit={handleSubmit}>
                         <div className='ml-6 md:ml-1'>
