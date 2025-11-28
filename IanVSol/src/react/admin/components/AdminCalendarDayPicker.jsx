@@ -1,17 +1,18 @@
-import ModalCalendar from '../ModalCalendar';
 import { use, useEffect, useState } from 'react'
 import { Day, DayPicker, getDefaultClassNames } from "react-day-picker"
 import "react-day-picker/style.css"
-import {Calendar}  from 'feather-icons-react'
 import supabase from '../../supabase-client';
+import {Calendar}  from 'feather-icons-react'
+import AdminModalCalendar from './AdminModalCalendar';
 
 
 
-export default function CalendarDatePicker({selectedDate, setSelectedDate, setSelectedMeetingDate, buttonTitle}) {
-    const [dateDisabled, setdateDisabled] = useState([])
+export default function AdminCalendarDatePicker({selectedDate, setSelectedDate, setSelectedMeetingDate, dateDisabled, setdateDisabled}) {
+    // const [dateDisabled, setdateDisabled] = useState([])
+    const [modalOpen, setismodalOpen] = useState(false)
     const meetingList = []
     const disableDates = dateDisabled.map(d => new Date(d));
-    const [modalOpen, setismodalOpen] = useState(false)
+    
     const defaultClassNames = getDefaultClassNames();
     const modifers = {selected: selectedDate};
     if (selectedDate) {
@@ -38,26 +39,17 @@ export default function CalendarDatePicker({selectedDate, setSelectedDate, setSe
         // const num = itemLength[0]
         // const meetingDateRes = meetingList.map(item => item[num - 1])
         // const formatedMeeting = meetingDateRes[0]
+        // setdateDisabled(formatedMeeting)
         setdateDisabled(formattedDate)
     }
     console.log("Disabled Date: ", dateDisabled)
    
 
     return (
-        <section>
-            <div className='flex pt-3 ml-5 md:ml-0 gap-3 text-white'>
-                <button type="button" onClick={() => setismodalOpen(true)} className={`w-44 p-2 text-black bg-white hover:scale-105 hover:bg-purple-500 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
-                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600`}>
-                    {buttonTitle}    
-                </button>
-                <span className={`pt-3 text-white`}>
-                    <Calendar/>
-                </span>
-            </div>
-        <ModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
+        <section className='-ml-4'>
             <DayPicker
                 animate
-                mode="single"
+                mode="multiple"
                 disabled={disableDates}
                 classNames={{
                     today: `bg-purple-800 text-white rounded-full`,
@@ -74,18 +66,32 @@ export default function CalendarDatePicker({selectedDate, setSelectedDate, setSe
                     if (!day) {
                         setSelectedDate(day)
                         setSelectedMeetingDate(day.toDateString())
-                        // setismodalOpen(false);
-                    } 
+                    }
                 }}
-                footer= {
-                    selectedDate ? `You selected: ${selectedDate?.toDateString()}` : "Pick a day."
-                }
+                // footer= {selectedDate?.length ? selectedDate.map(d => d.toDateString()).join(",") : "No date selected"}
                 
             />
-            </ModalCalendar>
-            <div className='pt-4 ml-6 -mb-0.5 md:ml-1'>
-                <span className={`text-neutral-400`}>Selected Date: {selectedDate?.toDateString()}</span>
+            <div className='pt-4 ml-6 -mb-0.5 md:ml-3'>
+                <span className={`text-neutral-400`}>Selected Date: {selectedDate?.length ? selectedDate.map(d => d.toDateString()).join(", ") : ""}</span>
             </div>
+            <div className='flex pt-8 ml-5 md:ml-0 gap-3 text-white'>
+                <button type="submit" onClick={() => setismodalOpen(true)} className={`w-44 p-2 text-black bg-white hover:scale-105 hover:bg-purple-500 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
+                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600`}>
+                    Save you date
+                </button>
+                <span className={`md:pt-1 text-white`}>
+                    <Calendar/>
+                </span>
+            </div>
+            <AdminModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
+                <div className='text-center w-86'>
+                    <p className='font-black text-neutral-400'>This is the date that you're reserving:  
+                    <span className='text-white'> {selectedDate?.length ? selectedDate.map(d => d.toDateString()).join(", ") : ""}
+                    </span></p>
+                </div>
+            </AdminModalCalendar>
+        
+            
             
         </section>
     )
