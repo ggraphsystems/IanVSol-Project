@@ -71,10 +71,10 @@ export default function AdminCalendarDatePicker({selectedDate, setSelectedDate, 
                 // footer= {selectedDate?.length ? selectedDate.map(d => d.toDateString()).join(",") : "No date selected"}
                 
             />
-            <div className='pt-4 ml-6 -mb-0.5 md:ml-3'>
+            <div className='pt-4 ml-6 -mb-0.5 md:ml-6'>
                 <span className={`text-neutral-400`}>Selected Date: {selectedDate?.length ? selectedDate.map(d => d.toDateString()).join(", ") : ""}</span>
             </div>
-            <div className='flex pt-8 ml-5 md:ml-0 gap-3 text-white'>
+            <div className='flex pt-8 ml-5 md:ml-5 gap-3 text-white'>
                 <button type="submit" onClick={() => setismodalOpen(true)} className={`w-44 p-2 text-black bg-white hover:scale-105 hover:bg-purple-500 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
                 active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600`}>
                     Save you date
@@ -84,10 +84,30 @@ export default function AdminCalendarDatePicker({selectedDate, setSelectedDate, 
                 </span>
             </div>
             <AdminModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
-                <div className='text-center w-86'>
+                <div onClick={(e) => e.stopPropagation()} className='text-center w-86'>
                     <p className='font-black text-neutral-400'>This is the date that you're reserving:  
                     <span className='text-white'> {selectedDate?.length ? selectedDate.map(d => d.toDateString()).join(", ") : ""}
                     </span></p>
+                    <div className="flex justify-center mt-4 gap-4">
+                        <button
+                            className={`w-20 p-2 text-white bg-purple-500 hover:scale-105 hover:bg-purple-700 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
+                                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600`}
+                            onClick={() => {
+                                handleSubmit();          // actually send data
+                                setismodalOpen(false);   // close modal
+                            }}
+                        >
+                            Confirm
+                        </button>
+                        <button
+                            type='button'
+                            className={`w-20 p-2 text-white bg-neutral-600 hover:scale-105 hover:bg-neutral-400 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-neutral-600 inline-block [--tw-text-opacity:1]
+                                active:bg-neutral-600 active:text-white focus:text-white focus:bg-neutral-600`}
+                            onClick={() => setismodalOpen(false)} // cancel
+                        >
+                            Cancel
+                        </button>
+                    </div>
                 </div>
             </AdminModalCalendar>
         
