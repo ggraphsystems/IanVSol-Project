@@ -71,7 +71,7 @@ export default function Admin() {
     }
 
     return(
-        <section className="pt-44 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
+        <section className="pt-40 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
             <div className="px-2 ml-6 grid lg:ml-10 md:grid-cols-2 gap-16 lg:mr-1 item-center">
                 
                 <div className="font-mono text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 2xl:px-10 text-white">

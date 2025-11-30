@@ -1,5 +1,3 @@
-import {Check, X}  from 'feather-icons-react'
-
 export default function AdminModalCalendar({open, onClose, children}) {
     return(
         <div onClick={onClose} 
