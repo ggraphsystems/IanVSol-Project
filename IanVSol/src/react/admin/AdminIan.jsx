@@ -71,7 +71,7 @@ export default function Admin() {
     }
 
     return(
-        <section className="pt-40 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
+        <section className="pt-25 md:pt-40 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
             <div className="px-2 ml-6 grid lg:ml-10 md:grid-cols-2 gap-16 lg:mr-1 item-center">
                 
                 <div className="font-mono text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 2xl:px-10 text-white">
@@ -96,7 +96,7 @@ export default function Admin() {
                 </form>
                 </div>
                 
-                <div className='-ml-5 text-neutral-400 -mb-0.5 md:ml-10'>
+                <div className='-ml-8 text-neutral-400 md:ml-10'>
                     <h2 className="text-2xl pt-20 pb-10 font-mono text-white w-md px-2 py-1 text-left"> Disabled Dates:</h2>
                     <div className="pt-0 ml-1 md:ml-2 overflow-x-auto overflow-y-auto border-gray-900 bg-black rounded  max-h-94 border scrollbar-thin scrollbar-thumb-black scrollbar-track-gray-100">
                         <table className="">

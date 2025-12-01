@@ -1,6 +1,6 @@
 export default function AdminModalCalendar({open, onClose, children}) {
     return(
-        <div onClick={onClose} 
+        <div onMouseDown={onClose} onTouchStart={onClose}
         className={`fixed inset-0 flex justify-center items-center transition-color 
         ${open ? "visible bg-black/80": "invisible"}`}>
             <form action="">
