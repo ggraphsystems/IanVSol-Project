@@ -1,11 +1,11 @@
 export default function AdminModalCalendar({open, onClose, children}) {
     return(
-        <div onMouseDown={onClose} onTouchStart={onClose}
+        <div onPointerDown={onClose}
         className={`fixed inset-0 flex justify-center items-center transition-color 
         ${open ? "visible bg-black/80": "invisible"}`}>
             <form action="">
                 <div 
-                onClick={(e) => e.stopPropagation}
+                onPointerDown={(e) => e.stopPropagation()}
                 className={`bg-neutral-950 rounded-xl shadow p-2 py-19 md:p-8 md:py-20 transition-all duration-300 ease-in-out
                 ${open ? "scale-100 opacity-100" : "scale-90 opacity-0"}`}>
                     {/* <button 

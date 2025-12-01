@@ -124,12 +124,13 @@ export default function Admin() {
                 </button>
 
                  <AdminModalCalendar open={modalOpen} onClose={() => setismodalOpen(false)}>
-                    <div onClick={(e) => e.stopPropagation()} className='text-center w-86'>
+                    <div className='text-center w-86'>
                         <p className='font-black text-white'>You are going about to delete you reserved dates, do you wanna continue?</p>
                         <div className="flex justify-center mt-4 gap-4">
                             <button
                                 type="submit"
-                                onClick={() => {
+                                onPointerDown={(e) => {
+                                    e.stopPropagation()
                                     handleDelete()
                                     setismodalOpen(false)
                                 }}
@@ -139,7 +140,8 @@ export default function Admin() {
                             </button>
                             <button
                                 type="button"
-                                onClick={() => {
+                                onPointerDown={(e) => {
+                                    e.stopPropagation()
                                     setismodalOpen(false)
                                 }}
                                 className={`w-20 p-2 text-white bg-neutral-600 hover:scale-105 hover:bg-neutral-400 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-neutral-600 inline-block [--tw-text-opacity:1]
