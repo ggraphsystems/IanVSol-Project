@@ -96,12 +96,12 @@ export default function Admin() {
                 <button
                         type="submit"
                         onClick={handleLogout}
-                        className={`w-40 ml-60 md:ml-150 lg:ml-230 2xl:ml-245 p-2 mt-8 text-white bg-black hover:scale-105 hover:bg-black hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-black inline-block [--tw-text-opacity:1]
+                        className={`w-40 ml-60 md:ml-150 lg:ml-220 2xl:ml-245 p-2 mt-8 text-white bg-black hover:scale-105 hover:bg-black hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-black inline-block [--tw-text-opacity:1]
                             active:bg-black active:text-white focus:text-white focus:bg-black`}>
                             Log Out
                 </button>
             </div>
-            <section className="pt-25 md:pt-40 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
+            <section className="pt-25 md:pt-40 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-4xl 2xl:max-w-6xl">
                 <div className="px-2 ml-6 grid lg:ml-10 md:grid-cols-2 gap-16 lg:mr-1 item-center">
                     
                     <div className="font-mono text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 2xl:px-10 text-white">
