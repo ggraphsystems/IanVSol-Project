@@ -16,6 +16,7 @@ export default function Admin() {
     useEffect(() => {
         supabase.auth.getSession().then(({data: {session}}) => {
             if (!session) window.location.href = "/admin/AdminLogin"
+            console.log("Current session: ", session)
         })
     }, [])
 
@@ -92,11 +93,11 @@ export default function Admin() {
 
     return(
         <section className="mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
-            <div className="-mb-15">
+            <div className="-mb-20">
                 <button
                         type="submit"
                         onClick={handleLogout}
-                        className={`w-40 ml-60 md:ml-150 lg:ml-220 2xl:ml-245 p-2 mt-8 text-white bg-black hover:scale-105 hover:bg-black hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-black inline-block [--tw-text-opacity:1]
+                        className={`relative z-50 w-40 ml-60 md:ml-100 lg:ml-200 2xl:ml-245 p-2 mt-8 text-white bg-black hover:scale-105 hover:bg-black hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-black inline-block [--tw-text-opacity:1]
                             active:bg-black active:text-white focus:text-white focus:bg-black
                             ${pressed
                                 ? 'focus:ring-black active:bg-black'
@@ -106,17 +107,17 @@ export default function Admin() {
                             Log Out
                 </button>
             </div>
-            <section className="pt-25 md:pt-40 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-4xl lg:ml-25 2xl:max-w-6xl">
+            <section className="pt-25 md:pt-40 mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-4xl lg:ml-40 2xl:max-w-6xl">
                 <div className="px-2 ml-6 grid lg:ml-10 md:grid-cols-2 gap-16 lg:mr-1 item-center">
                     
                     <div className="font-mono text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 2xl:px-10 text-white">
                         <h3
-                        className="text-2xl sm:text-4xl mb-20 md:mb-5 ml-2 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
+                        className="text-2xl sm:text-4xl mb-5 md:mb-5 ml-2 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
                         >
                         HI Ian, Welcome Back!
                         </h3>
                         <p
-                        className="w-80 md:mb-7 -mb-15 lg:-mb-6 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm 2xl:w-lg lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
+                        className="w-80 md:mb-7 -mb-20 lg:-mb-6 md:ml-0 md:w-base text-neutral-300 px-2 pb-30 md:pb-1 lg:pb-10 text-sm md:text-sm 2xl:w-80 lg:-ml-1 text-text-secondary-light dark:text-text-secondary-dark"
                         >
                         Remember, you can save here all the dates in where you are not able to get a meeting with someone.
                         </p>

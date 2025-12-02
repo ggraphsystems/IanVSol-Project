@@ -7,7 +7,9 @@ const supabaseKey = api.supabaseKey
 const supabase = createClient(supabaseUrl, supabaseKey, {
     auth: {
         persistSession: true,
-        autoRefreshToken:true
+        autoRefreshToken:true,
+        // detectSessionInUrl: true,
+        // storage: localStorage
     }
 });
 
