@@ -40,7 +40,7 @@ export default function Login() {
 
 
     return (
-        <section className="pt-15 md:pt-30 text-white mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
+        <section className="pt-15 md:pt-25 text-white mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
             <div className="font-mono ml-9 md:ml-50 lg:ml-85 2xl:ml-85 text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 text-white">
                     <h3
                     className="text-3xl sm:text-4xl mb-20 md:mb-5 ml-2 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
@@ -71,11 +71,11 @@ export default function Login() {
                         onChange={(e) => setLoginForm({...loginForm, password: e.target.value})}
                         icons={`${loginForm.password ? "text" : "password"}`}
                     />
-                    <div className="pt-10 md:ml-17 lg:ml-18 2xl:ml-25 lg:gap-5 2xl:gap-2 md:gap-22 mb-2 md:grid md:grid-cols-2">
+                    <div className="pt-10 md:ml-17 lg:ml-18 2xl:ml-25 lg:gap-1 2xl:gap-1 md:gap-22 mb-2 md:grid md:grid-cols-2">
                         <button
                             type="button"
                             onClick={signInUser}
-                            className={`w-30 p-3 text-white bg-neutral-900 hover:scale-105 hover:bg-neutral-800 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-500 inline-block [--tw-text-opacity:1]
+                            className={`w-30 p-3 ml-1 text-white bg-neutral-900 hover:scale-105 hover:bg-neutral-800 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-500 inline-block [--tw-text-opacity:1]
                                 active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600
                                  ${pressed
                                     ? 'focus:bg-purple-600 active:bg-purple-600'
@@ -86,7 +86,7 @@ export default function Login() {
                         </button>
                         <a
                             href='/'
-                            className={`w-30 ml-3 md:ml-0 p-3 pl-7 text-black bg-neutral-100 hover:scale-105 hover:bg-purple-600 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-500 inline-block [--tw-text-opacity:1]
+                            className={`w-30 ml-3 p-3 pl-7 text-black bg-neutral-100 hover:scale-105 hover:bg-purple-600 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-500 inline-block [--tw-text-opacity:1]
                                 active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600
                                 ${pressed
                                     ? 'focus:bg-purple-600 active:bg-purple-600'
