@@ -6,6 +6,7 @@ import AdminModalCalendar from './components/AdminModalCalendar'
 
 export default function Login() {
     const [modalOpen, setismodalOpen] = useState(false)
+    const [pressed, setisPressed] = useState(false)
     const [loginForm, setLoginForm] = useState({
         email:"",
         password:""
@@ -75,13 +76,23 @@ export default function Login() {
                             type="button"
                             onClick={signInUser}
                             className={`w-30 p-3 text-white bg-neutral-900 hover:scale-105 hover:bg-neutral-800 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-500 inline-block [--tw-text-opacity:1]
-                                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600`}>
+                                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600
+                                 ${pressed
+                                    ? 'focus:bg-purple-600 active:bg-purple-600'
+                                    : "bg-neutral-600 active:text-white"
+                                }
+                                `}>
                                 Log in
                         </button>
                         <a
-                            href=''
+                            href='/'
                             className={`w-30 ml-3 md:ml-0 p-3 pl-7 text-black bg-neutral-100 hover:scale-105 hover:bg-purple-600 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-500 inline-block [--tw-text-opacity:1]
-                                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600`}>
+                                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600
+                                ${pressed
+                                    ? 'focus:bg-purple-600 active:bg-purple-600'
+                                    : "bg-neutral-100 active:text-black"
+                                }
+                                `}>
                                 Ian V Sol
                         </a>
                     </div>
@@ -93,7 +104,12 @@ export default function Login() {
                             <button
                                 type='button'
                                 className={`w-25 p-2 text-white bg-neutral-600 hover:scale-105 hover:bg-neutral-400 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-neutral-600 inline-block [--tw-text-opacity:1]
-                                    active:bg-neutral-600 active:text-white focus:text-white focus:bg-neutral-600`}
+                                    active:bg-neutral-600 active:text-white focus:text-white focus:bg-neutral-600 
+                                    ${pressed
+                                        ? 'focus:bg-purple-600 active:bg-purple-600'
+                                        : "bg-neutral-600 active:text-white"
+                                    }
+                                    `}
                                 onClick={() => setismodalOpen(false)} // cancel
                             >
                                 Try Again

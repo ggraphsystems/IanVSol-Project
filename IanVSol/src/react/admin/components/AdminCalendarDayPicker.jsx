@@ -12,6 +12,7 @@ export default function AdminCalendarDatePicker({selectedDate, setSelectedDate, 
     const [modalOpen, setismodalOpen] = useState(false)
     const meetingList = []
     const disableDates = dateDisabled.map(d => new Date(d));
+    const [pressed, setisPressed] =  useState(false)
     
     const defaultClassNames = getDefaultClassNames();
     const modifers = {selected: selectedDate};
@@ -76,7 +77,12 @@ export default function AdminCalendarDatePicker({selectedDate, setSelectedDate, 
             </div>
             <div className='flex pt-8 ml-5 md:ml-5 gap-3 text-white'>
                 <button type="submit" onClick={() => setismodalOpen(true)} className={`w-44 p-2 text-black bg-white hover:scale-105 hover:bg-purple-500 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
-                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600`}>
+                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600
+                ${pressed
+                    ? 'focus:bg-purple-600 active:bg-purple-600'
+                    : "bg-white active:text-white"
+                }
+                `}>
                     Save you date
                 </button>
                 <span className={`md:pt-1 text-white`}>
@@ -91,7 +97,12 @@ export default function AdminCalendarDatePicker({selectedDate, setSelectedDate, 
                     <div className="flex justify-center mt-4 gap-4">
                         <button
                             className={`w-20 p-2 text-white bg-purple-500 hover:scale-105 hover:bg-purple-700 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-purple-600 inline-block [--tw-text-opacity:1]
-                                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600`}
+                                active:bg-purple-600 active:text-white focus:text-white focus:bg-purple-600
+                                ${pressed
+                                    ? 'focus:bg-purple-600 active:bg-purple-600'
+                                    : "bg-purple-600 active:text-white"
+                                }
+                                `}
                             onClick={() => {
                                 handleSubmit();          // actually send data
                                 setismodalOpen(false);   // close modal
@@ -102,7 +113,12 @@ export default function AdminCalendarDatePicker({selectedDate, setSelectedDate, 
                         <button
                             type='button'
                             className={`w-20 p-2 text-white bg-neutral-600 hover:scale-105 hover:bg-neutral-400 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-neutral-600 inline-block [--tw-text-opacity:1]
-                                active:bg-purple-600 active:text-white focus:text-white focus:bg-neutral-600`}
+                                active:bg-purple-600 active:text-white focus:text-white focus:bg-neutral-600
+                                ${pressed
+                                    ? 'focus:bg-purple-600 active:bg-purple-600'
+                                    : "bg-neutral-600 active:text-white"
+                                }
+                                `}
                             onClick={() => setismodalOpen(false)} // cancel
                         >
                             Cancel
