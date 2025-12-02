@@ -40,9 +40,9 @@ export default function Login() {
 
     return (
         <section className="pt-30 md:pt-44 text-white mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
-            <div className="font-mono ml-9 md:ml-50 lg:ml-95 2xl:ml-95 text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 text-white">
+            <div className="font-mono ml-9 md:ml-50 lg:ml-85 2xl:ml-85 text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 text-white">
                     <h3
-                    className="text-2xl sm:text-4xl mb-20 md:mb-5 ml-2 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
+                    className="text-3xl sm:text-4xl mb-20 md:mb-5 ml-2 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
                     >
                     Owner Admin
                     </h3>
@@ -53,7 +53,7 @@ export default function Login() {
                     </p>
                     <p className="text-neutral-500">Best regards! G-Graph Systems team.</p>
             </div>
-            <div className="pt-10 grid ml-9 md:ml-50 lg:ml-95 md:grid-cols-2 gap-16 item-center">
+            <div className="pt-10 grid ml-9 md:ml-50 lg:ml-85 2xl:ml-85 md:grid-cols-2 gap-16 item-center">
                 <form>
                     <TextInput
                         label="Email"
@@ -70,7 +70,7 @@ export default function Login() {
                         onChange={(e) => setLoginForm({...loginForm, password: e.target.value})}
                         icons={`${loginForm.password ? "text" : "password"}`}
                     />
-                    <div className="pt-10 md:ml-17 lg:ml-25 md:gap-22 mb-2 md:grid md:grid-cols-2">
+                    <div className="pt-10 md:ml-17 lg:ml-18 2xl:ml-25 lg:gap-5 2xl:gap-2 md:gap-22 mb-2 md:grid md:grid-cols-2">
                         <button
                             type="button"
                             onClick={signInUser}

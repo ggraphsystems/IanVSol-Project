@@ -13,7 +13,7 @@ export default function Admin() {
 
     useEffect(() => {
         supabase.auth.getSession().then(({data: {session}}) => {
-            if (!session) window.location.href = "/admin/AdminIan"
+            if (!session) window.location.href = "/admin/AdminLogin"
         })
     }, [])
 
@@ -84,6 +84,7 @@ export default function Admin() {
             console.log("we got and error deleting the date: ", error)
         } else {
             console.log("data deleted successfully, ", data)
+            window.location.reload()
         }
     }
 
@@ -154,9 +155,8 @@ export default function Admin() {
                             <p className='font-black text-white'>You are going about to delete you reserved dates, do you wanna continue?</p>
                             <div className="flex justify-center mt-4 gap-4">
                                 <button
-                                    type="submit"
-                                    onPointerDown={(e) => {
-                                        e.stopPropagation()
+                                    type="button"
+                                    onClick={() => {
                                         handleDelete()
                                         setismodalOpen(false)
                                     }}

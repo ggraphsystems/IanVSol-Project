@@ -102,7 +102,7 @@ export default function AdminCalendarDatePicker({selectedDate, setSelectedDate, 
                         <button
                             type='button'
                             className={`w-20 p-2 text-white bg-neutral-600 hover:scale-105 hover:bg-neutral-400 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-neutral-600 inline-block [--tw-text-opacity:1]
-                                active:bg-neutral-600 active:text-white focus:text-white focus:bg-neutral-600`}
+                                active:bg-purple-600 active:text-white focus:text-white focus:bg-neutral-600`}
                             onClick={() => setismodalOpen(false)} // cancel
                         >
                             Cancel
