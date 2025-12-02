@@ -17,6 +17,10 @@ export default function Admin() {
         })
     }, [])
 
+    useEffect(() => {
+       getMeetingDates()
+    }, [])
+
     const handleSubmit = (e) =>  {
         e.preventDefault()
         addMeetingDate_toSupaBase()
@@ -26,7 +30,7 @@ export default function Admin() {
         deleteDates()
     }
     
-    const handleLogut = async () =>  {
+    const handleLogout = async () =>  {
         const {error} = await supabase.auth.signOut();
         if (error) {
             console.log("There was an error try to login out: ", error)
@@ -84,12 +88,12 @@ export default function Admin() {
     }
 
     return(
-        <section>
-            <div className="ml-480 -mb-10">
+        <section className="mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
+            <div className="-mb-10">
                 <button
                         type="submit"
-                        onClick={handleLogut}
-                        className={`w-40 ml-2 p-2 mt-8 text-white bg-black hover:scale-105 hover:bg-black hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-black inline-block [--tw-text-opacity:1]
+                        onClick={handleLogout}
+                        className={`w-40 ml-60 md:ml-150 lg:ml-230 2xl:ml-245 p-2 mt-8 text-white bg-black hover:scale-105 hover:bg-black hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-black inline-block [--tw-text-opacity:1]
                             active:bg-black active:text-white focus:text-white focus:bg-black`}>
                             Log Out
                 </button>
@@ -119,15 +123,15 @@ export default function Admin() {
                     </div>
                     
                     <div className='-ml-8 text-neutral-400 md:ml-10'>
-                        <h2 className="text-2xl pt-20 pb-10 font-mono text-white w-md px-2 py-1 text-left"> Disabled Dates:</h2>
-                        <div className="pt-0 ml-1 md:ml-2 overflow-x-auto overflow-y-auto border-gray-900 bg-black rounded  max-h-94 border scrollbar-thin scrollbar-thumb-black scrollbar-track-gray-100">
+                        <h2 className="text-2xl pt-20 pb-10 font-mono text-white w-md ml-7 md:ml-0 px-2 py-1 text-left"> Disabled Dates:</h2>
+                        <div className="pt-0 ml-10 md:ml-2 overflow-x-auto overflow-y-auto border-gray-900 bg-black rounded  max-h-94 md:border scrollbar-thin scrollbar-thumb-black scrollbar-track-gray-100">
                             <table className="">
                                 {Array.from({ length: Math.ceil(dateDisabled.length / 3) }).map((_, rowIndex) => (
                                 <tr key={rowIndex}>
                                 {dateDisabled
                                     .slice(rowIndex * 3, rowIndex * 3 + 3)
                                     .map((item, colIndex) => (
-                                    <td key={colIndex} className="border border-gray-300 w-30 px-2 py-2 sm:w-35 sm:px-2 sm:py-1 md:w-lg md:px-2 md:py-2">
+                                    <td key={colIndex} className="border border-gray-300 w-25 px-1 py-2 sm:w-25 sm:px-2 sm:py-1 md:w-lg md:px-2 md:py-2">
                                         {item}
                                     </td>
                                     ))}
@@ -136,11 +140,11 @@ export default function Admin() {
                             </table>
                         </div>
                     <button
-                        type="submit"
+                        type="button"
                         onClick={() => {
                             setismodalOpen(true)
                         }}
-                        className={`w-40 ml-2 p-2 mt-8 text-black bg-white hover:scale-105 hover:bg-red-600 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-700 inline-block [--tw-text-opacity:1]
+                        className={`w-40 ml-10 md:ml-2 p-2 mt-8 text-black bg-white hover:scale-105 hover:bg-red-600 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-700 inline-block [--tw-text-opacity:1]
                             active:bg-red-600 active:text-white focus:text-white focus:bg-red-600`}>
                             Reset
                     </button>
