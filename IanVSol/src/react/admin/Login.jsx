@@ -40,8 +40,8 @@ export default function Login() {
 
 
     return (
-        <section className="pt-15 md:pt-25 text-white mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-6xl 2xl:max-w-6xl">
-            <div className="font-mono ml-9 md:ml-50 lg:ml-85 2xl:ml-85 text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 text-white">
+        <section className="pt-15 md:pt-15 text-white mx-auto max-w-sm overflow-hidden rounded-xl shadow-md sm:max-w-md md:max-w-3xl lg:max-w-5xl 2xl:max-w-6xl">
+            <div className="font-mono ml-9 md:ml-45 lg:ml-78 2xl:ml-85 text-sm space-y-6 sm:px-2 md:px-1 lg:px-0 text-white">
                     <h3
                     className="text-3xl sm:text-4xl mb-20 md:mb-5 ml-2 md:ml-1 text-white lg:ml-0 md:text-4xl font-bold"
                     >
@@ -54,7 +54,7 @@ export default function Login() {
                     </p>
                     <p className="text-neutral-500">Best regards! G-Graph Systems team.</p>
             </div>
-            <div className="pt-10 grid ml-9 md:ml-50 lg:ml-85 2xl:ml-85 md:grid-cols-2 gap-16 item-center">
+            <div className="pt-10 grid ml-9 md:ml-50 lg:ml-78 2xl:ml-85 md:grid-cols-2 gap-16 item-center">
                 <form>
                     <TextInput
                         label="Email"
