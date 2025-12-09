@@ -98,7 +98,7 @@ export default function Admin() {
                         type="submit"
                         onClick={handleLogout}
                         className={`relative z-50 w-40 ml-60 md:ml-100 lg:ml-200 2xl:ml-245 p-2 mt-8 text-white bg-black hover:scale-105 hover:bg-black hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-black inline-block [--tw-text-opacity:1]
-                            active:bg-black active:text-white focus:text-white focus:bg-black
+                            active:bg-black active:text-white focus:text-white focus:bg-black cursor-pointer
                             ${pressed
                                 ? 'focus:ring-black active:bg-black'
                                 : "bg-black active:text-white"
@@ -154,7 +154,7 @@ export default function Admin() {
                             setismodalOpen(true)
                         }}
                         className={`w-40 ml-10 md:ml-2 p-2 mt-8 text-black bg-white hover:scale-105 hover:bg-red-600 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-700 inline-block [--tw-text-opacity:1]
-                            active:bg-red-600 active:text-white focus:text-white focus:bg-red-600
+                            active:bg-red-600 active:text-white focus:text-white focus:bg-red-600 cursor-pointer
                             ${pressed
                                 ? 'focus:ring-red-700 active:bg-red-600'
                                 : "bg-white active:text-white"
@@ -174,7 +174,7 @@ export default function Admin() {
                                         setismodalOpen(false)
                                     }}
                                     className={`w-20 p-2 text-white bg-red-500 hover:scale-105 hover:bg-red-600 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-500 inline-block [--tw-text-opacity:1]
-                                        active:bg-red-600 active:text-white focus:text-white focus:bg-red-600
+                                        active:bg-red-600 active:text-white focus:text-white focus:bg-red-600 cursor-pointer
                                         ${pressed
                                             ? 'focus:ring-red-700 active:bg-red-600'
                                             : "bg-red-500 active:text-white"
@@ -189,7 +189,7 @@ export default function Admin() {
                                         setismodalOpen(false)
                                     }}
                                     className={`w-20 p-2 text-white bg-neutral-600 hover:scale-105 hover:bg-neutral-400 hover:text-white rounded-xl transition-all duration-200 ease-in-out active:scale-95 focus:outline-none focus:ring-2 focus:ring-neutral-600 inline-block [--tw-text-opacity:1]
-                                    active:bg-neutral-600 active:text-white focus:text-white focus:bg-neutral-600
+                                    active:bg-neutral-600 active:text-white focus:text-white focus:bg-neutral-600 cursor-pointer
                                     ${pressed
                                         ? 'focus:ring-purple-600 active:bg-purple-600'
                                         : "bg-neutral-600 active:text-white"
