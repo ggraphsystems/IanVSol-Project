@@ -18,7 +18,12 @@
     >
       <source src="/background-video-4.mp4" type="video/mp4" />
     </video>
-    <slot />
+    <div class="fixed top-0 left-0 w-full h-full bg-black/40 -z-5"></div>
+
+    <!-- Your page content -->
+    <main class="relative z-10">
+      <slot />
+    </main>
   </body>
 </html>
 <style is:global>
