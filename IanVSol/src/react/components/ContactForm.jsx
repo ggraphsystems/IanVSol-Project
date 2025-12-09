@@ -108,7 +108,7 @@ export default function ContactForm() {
                 <div className="ml-1 md:ml-0 grid">
                   <label className="text-sm font-bold">Full Name: <span className="text-neutral-600 hover:text-neutral-400">(required)</span> </label>
                   <input
-                    className="pt-4 w-80 lg:w-103 2xl:w-130 bg-black border-b border-neutral-500 focus:outline-none focus:border-white"
+                    className="pt-4 w-80 lg:w-103 2xl:w-130 bg-transparent border-b border-neutral-500 focus:outline-none focus:border-white"
                     type="text"
                     id="fullname"
                     value={form.fullname}
