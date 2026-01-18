@@ -16,7 +16,7 @@ export default function Admin() {
     useEffect(() => {
         supabase.auth.getSession().then(({data: {session}}) => {
             if (!session) window.location.href = "/admin/AdminLogin"
-            console.log("Current session: ", session)
+            // console.log("Current session: ", session)
         })
     }, [])
 
@@ -65,12 +65,12 @@ export default function Admin() {
     const getMeetingDates = async () => {
         const { data, error } = await supabase.from("CalendarDates").select("date");
         if (error) {
-            console.log("we got an error fetching date from supabase: ", error)
+            // console.log("we got an error fetching date from supabase: ", error)
         } else{
-            console.log("successfully fetch", data)
+            // console.log("successfully fetch", data)
         }
         meetingList.push(data.map(item => item.date))
-        console.log(meetingList[0])
+        // console.log(meetingList[0])
         const formattedDate = meetingList[0]
         // const itemLength = meetingList.map(item => item.length)
         // const num = itemLength[0]
@@ -79,7 +79,7 @@ export default function Admin() {
         // setdateDisabled(formatedMeeting)
         setdateDisabled(formattedDate)
     }
-    console.log("Disabled Date: ", dateDisabled)
+    // console.log("Disabled Date: ", dateDisabled)
     
     const deleteDates = async () => {
         const {data, error} = await supabase.from("CalendarDates").delete().neq("id", 0);

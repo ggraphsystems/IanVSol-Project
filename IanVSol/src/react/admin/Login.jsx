@@ -13,8 +13,8 @@ export default function Login() {
     })
         
     const handleSubmit = () => {
-        console.log(loginForm.email)
-        console.log(loginForm.password)
+        // console.log(loginForm.email)
+        // console.log(loginForm.password)
         signInUser()
     }
 
